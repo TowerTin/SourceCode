@@ -1,0 +1,9 @@
+C:\Users\minami\Desktop\XNA\Scene0\Scene0\bin\x86\Debug\Scene0.exe
+C:\Users\minami\Desktop\XNA\Scene0\Scene0\bin\x86\Debug\Scene0.pdb
+C:\Users\minami\Desktop\XNA\Scene0\Scene0\obj\x86\Debug\Microsoft.Xna.Framework.RuntimeProfile.txt
+C:\Users\minami\Desktop\XNA\Scene0\Scene0\obj\x86\Debug\Scene0.exe
+C:\Users\minami\Desktop\XNA\Scene0\Scene0\obj\x86\Debug\Scene0.pdb
+C:\Users\minami\Desktop\XNA\Scene0\Scene0\bin\x86\Debug\Content\SpriteFont2.xnb
+C:\Users\minami\Desktop\XNA\Scene0\Scene0\bin\x86\Debug\Content\MS20.xnb
+C:\Users\minami\Desktop\XNA\Scene0\Scene0\bin\x86\Debug\Content\MS30.xnb
+C:\Users\minami\Desktop\XNA\Scene0\Scene0\obj\x86\Debug\Scene0.csprojResolveAssemblyReference.cache

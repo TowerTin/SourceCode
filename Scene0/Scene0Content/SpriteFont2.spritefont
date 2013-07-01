@@ -1,0 +1,32 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<XnaContent xmlns:Graphics="Microsoft.Xna.Framework.Content.Pipeline.Graphics">
+  <Asset Type="Graphics:FontDescription">
+
+    <!--フォント名-->
+    <FontName>MS UI Gothic</FontName>
+
+    <!--フォントサイズ-->
+    <Size>24</Size>
+
+    <!--文字間隔-->
+    <Spacing>0</Spacing>
+
+    <!--カーリングの利用-->
+    <UseKerning>true</UseKerning>
+
+    <!--スタイル-->
+    <Style>Regular</Style>
+
+    <!--利用する文字範囲-->
+    <CharacterRegions>
+      <CharacterRegion>
+        <Start>&#32;</Start>
+        <End>&#126;</End>
+      </CharacterRegion>
+      <CharacterRegion>
+        <Start>&#x30a0;</Start>
+        <End>&#x30ff;</End>
+      </CharacterRegion>
+    </CharacterRegions>
+  </Asset>
+</XnaContent>

@@ -1,0 +1,24 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ttin", "Ttin\Ttin\Ttin.csproj", "{8B38562C-5405-468D-B7CD-B5A5F82813CE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TtinContent", "Ttin\TtinContent\TtinContent.contentproj", "{E2BE5368-E31B-4323-A611-10F49D1DE2D8}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x86 = Debug|x86
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{8B38562C-5405-468D-B7CD-B5A5F82813CE}.Debug|x86.ActiveCfg = Debug|x86
+		{8B38562C-5405-468D-B7CD-B5A5F82813CE}.Debug|x86.Build.0 = Debug|x86
+		{8B38562C-5405-468D-B7CD-B5A5F82813CE}.Release|x86.ActiveCfg = Release|x86
+		{8B38562C-5405-468D-B7CD-B5A5F82813CE}.Release|x86.Build.0 = Release|x86
+		{E2BE5368-E31B-4323-A611-10F49D1DE2D8}.Debug|x86.ActiveCfg = Debug|x86
+		{E2BE5368-E31B-4323-A611-10F49D1DE2D8}.Release|x86.ActiveCfg = Release|x86
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
