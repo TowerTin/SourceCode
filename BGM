@@ -1,0 +1,68 @@
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Audio;
+using Microsoft.Xna.Framework.Input;
+using Microsoft.Xna.Framework.Media;
+
+public class TestGame : Game
+{
+    public static void Main(string[] args)
+    {
+        using (Game game = new TestGame()) game.Run();
+    }
+
+    private GraphicsDeviceManager graphicsDeviceManager;
+    private Song song1;                                     //音楽ファイルを入れるための変数
+    private KeyboardState prevKeyState;                     //キーボードのキーを入れるための変数
+
+    public TestGame()
+    {
+        graphicsDeviceManager = new GraphicsDeviceManager(this);
+        Content.RootDirectory = "Content";
+    }
+
+    protected override void LoadContent()
+    {
+        song1 = Content.Load<Song>("t_music104_boss08");    //音楽ファイルを変数song1に入れる(""の中にはプロジェクト内の音楽ファイルの名前)
+        MediaPlayer.IsRepeating = true;                     //音楽再生のリピート管理をTRUEに変更
+        MediaPlayer.Volume = 0.5f;                          //音楽再生の音量を変更(数値の範囲は0.0f~1.0f)
+        base.LoadContent();
+    }
+
+    protected override void Update(GameTime gameTime)
+    {
+        KeyboardState keyState = Keyboard.GetState();       //キーボードの押されているキーを変数keyStateに入れる
+        //AキーでBGM再生
+        if (keyState.IsKeyDown(Keys.A) && prevKeyState.IsKeyUp(Keys.A))     //一度キーを押してそのキーを離した時にTRUEになるIf文
+            MediaPlayer.Play(song1);
+        //SキーでBGM停止
+        if (keyState.IsKeyDown(Keys.S) && prevKeyState.IsKeyUp(Keys.S))
+            MediaPlayer.Stop();
+        //DキーでBGM一時停止
+        if (keyState.IsKeyDown(Keys.D) && prevKeyState.IsKeyUp(Keys.D))
+            MediaPlayer.Pause();
+        //FキーでBGM再開
+        if (keyState.IsKeyDown(Keys.F) && prevKeyState.IsKeyUp(Keys.F))
+            MediaPlayer.Resume();
+
+        //↑キーで音量上昇
+        if (keyState.IsKeyDown(Keys.Up) && prevKeyState.IsKeyUp(Keys.Up))
+            MediaPlayer.Volume = MediaPlayer.Volume + 0.05f;
+        //↓キーで音量下降
+        if (keyState.IsKeyDown(Keys.Down) && prevKeyState.IsKeyUp(Keys.Down))
+            MediaPlayer.Volume = MediaPlayer.Volume - 0.05f;
+
+        //BACK SPACEキーでプログラム終了
+        if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed ||
+                Keyboard.GetState().IsKeyDown(Keys.Escape)) this.Exit();
+
+        prevKeyState = keyState;                            //押されたキーを変数prevKeyStateに入れる　一度押されたキーから指を離したか確認するため
+        base.Update(gameTime);
+    }
+
+    protected override void Draw(GameTime gameTime)
+    {
+        GraphicsDevice.Clear(Color.White);
+        base.Draw(gameTime);
+    }
+}
