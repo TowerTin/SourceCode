@@ -1,5 +1,0 @@
-Content\ch01.xnb
-Content\ch04.xnb
-Content\sampgame.xnb
-Content\sampgame2.xnb
-Content\MS20.xnb
