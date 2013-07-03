@@ -10,14 +10,16 @@ using System.Collections.Generic;
 
 public class Ttin : Game
 {
-    private GraphicsDeviceManager Gm;
+    GraphicsDeviceManager Gm;
+    
     // #1 に伴いプロパティpublicにget可能なプロパティに変更
     public SpriteBatch sprite
     {
         get;
         private set;
     }
-    private SpriteFont font;
+    
+    SpriteFont font;
 
     // #1 コードから意味がわかるように設計を変更
     // 画面中のクリック位置として使われているらしい
@@ -36,6 +38,7 @@ public class Ttin : Game
                    , posG4   = new Vector2(600, 120)
                    , posG42  = new Vector2(700, 120)
                 ;
+    
     // #1 これらは変数らしい。使い方が判明次第適切に実装変更する
     Vector2 posG5, posUM, posUM3;
 
@@ -63,7 +66,11 @@ public class Ttin : Game
     int gold = 1000;
     int[] uniGo = { 0, 100, 120 };
     int[] ke = { 600, 640, 680, 720, 760, 800 };
-    int eneLv = 0;
+
+    // #1 に伴いプロパティ化
+    public int eneLv { get { return _eneLv; } private set { _eneLv = value; } }
+    int _eneLv = 0;
+    
     bool ste = false, icn = false;
 
     int lvch = -1;
@@ -143,7 +150,8 @@ public class Ttin : Game
         sprite = new SpriteBatch(GraphicsDevice);
         font = Content.Load<SpriteFont>("Content/MS20");
 
-        cpu = new CPU(Gm.GraphicsDevice, sprite, mapa, eneLv);
+        // #1 ctorパラメーターを抜本的に変更
+        cpu = new CPU(this);//Gm.GraphicsDevice, sprite, mapa, eneLv);
         // #1 ctorパラメーターを抜本的に変更
         blast = new Unit(this);
         cmap = new CreateMap(Gm.GraphicsDevice, sprite);

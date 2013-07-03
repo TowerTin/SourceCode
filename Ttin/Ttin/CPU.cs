@@ -9,7 +9,7 @@ using System.Diagnostics;
 using System.Collections.Generic;
 
 //敵ユニットの設定
-class CPU
+class CPU: DrawableGameComponent
 {
     const int BLASTSU = 255;
     public int[] x, y, mapNo, x1, y1, hp, lv, sped, kougeki, cont;
@@ -44,8 +44,17 @@ class CPU
     int[,] map;
     int gold = 0;
     public int[] swh;
-    public CPU(GraphicsDevice g, SpriteBatch _sprite, int[,] _m, int eneNo)
+    
+    //public CPU(GraphicsDevice g, SpriteBatch _sprite, int[,] _m, int eneNo)
+    public CPU(Ttin ttin)
+        : base(ttin)
     {
+        // #1 に伴い一時的にソースコード互換性の為
+        var g = ttin.GraphicsDevice;
+        var _sprite = ttin.sprite;
+        var _m = ttin.mapa;
+        var eneNo = ttin.eneLv;
+
         pos = new Vector2[BLASTSU];
 
         x = new int[BLASTSU];
