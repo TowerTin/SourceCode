@@ -1,4 +1,4 @@
-using Microsoft.Xna.Framework.Content;
+﻿using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
@@ -8,20 +8,29 @@ using System.Threading;
 using System.Diagnostics;
 using System.Collections.Generic;
 
-//���C���̃N���X
+//メインのクラス
 public class Ttin : Game
 {
-    private  GraphicsDeviceManager Gm;
+    private GraphicsDeviceManager Gm;
+    private SpriteBatch sprite;
+    private SpriteFont font;
+    
+    // #1 コードから意味がわかるように設計を変更
     private Vector2 pos1, pos2, posNo, posUni2, posUni3, posUni4, posUni5, posUni6, posUni7, posUni1, posG4, posG42, posG5, posUM, posUM2, posUM3;
-    private  SpriteBatch sprite;
-    private Texture2D Tgazo, gazo2,icnimg;
+
+    // #1 管理をオブジェクト化する
+    private Texture2D Tgazo, gazo2, icnimg;
+    public Texture2D uni1, uni2, uni3, uni4, uni5, uni6, uni7, me3, me32, me4, me5;
+
+    // #1 ？
     int st = 0;
+
+    // #2 シーン管理を導入しそちらへ
     private CPU cpu;
     private Unit blast;
     private CreateMap cmap;
     public int[,] maptable, mapa,unimap;
     public Texture2D[] noimg;
-    private SpriteFont font;
     public bool flg = false;
     public bool flg2 = true ;
     int unitNo = -1;
@@ -29,8 +38,14 @@ public class Ttin : Game
     int[] uniGo = { 0, 100, 120};
     int[] ke = { 600, 640, 680, 720, 760, 800 };
     int eneLv = 0;
-    bool ste=false,icn= false ;
-    public Texture2D uni1, uni2, uni3, uni4, uni5, uni6, uni7, me3, me32, me4, me5;
+    bool ste = false, icn = false;
+
+    int lvch = -1;
+    int lvc = 0;
+    int lvx, lvy, rvx, rvy;
+    bool lvani = false, lvup = true, lvup2 = true;
+    string smess = "";
+
     public Ttin()
     {
         Gm = new GraphicsDeviceManager(this);
@@ -62,7 +77,7 @@ public class Ttin : Game
         posG42.X = 700;
         posG42.Y = 120;
 
-        //�G���j�b�g�̃��[�g�}�b�v
+        //敵ユニットのルートマップ
         mapa = new int[,] { 
         {98,98,98,98,98,98,98,98,98,98,98,98,98,98,98},
         {98,99,99,99,99,99,99,99,99,99,99,99,99,99,98},
@@ -81,7 +96,7 @@ public class Ttin : Game
         {98,98,98,98,98,98,98,98,98,98,98,98, 0,98,98}
         };
 
-        //�}�b�v�`�b�v�̃}�b�v
+        //マップチップのマップ
         maptable = new int[,] { 
         {49,49,49,49,49,49,49,49,49,49,49,49,49,49,49},
         {17,17,17,17,17,17,17,17,17,17,17,17,17,17,49},
@@ -100,7 +115,7 @@ public class Ttin : Game
         {49,49,49,49,49,49,49,49,49,49,49,49, 7,49,49}
         };
 
-        //���Q���j�b�g�̔z�u�}�b�v�imapa�ƈ�ɂ���j
+        //自群ユニットの配置マップ（mapaと一つにする）
         unimap  = new int[,] { 
         {49,49,49,49,49,49,49,49,49,49,49,49,49,49,49},
         {99,99,99,99,99,99,99,99,99,99,99,99,99,99,49},
@@ -118,6 +133,7 @@ public class Ttin : Game
         {49,49,99,99,99,99,99,99,99,99,99,99, 7,99,49},
         {49,49,49,49,49,49,49,49,49,49,49,49, 7,49,49}
         };
+
         noimg = new Texture2D[10];
     }
     
@@ -129,6 +145,8 @@ public class Ttin : Game
             g.Run();
         }
     }
+
+    // #2 シーンシステムごとにする
     protected override void LoadContent()
     {
         font = Content.Load<SpriteFont>("Content/MS20");
@@ -173,6 +191,8 @@ public class Ttin : Game
          me5 = Texture2D.FromStream(GraphicsDevice, s6);
         base.LoadContent();
     }
+
+    // #1 OOP化
     protected override void Update(GameTime gameTime)
     {
         KeyboardState state = Keyboard.GetState();
@@ -189,7 +209,7 @@ public class Ttin : Game
       
         mousePressChk();
 
-        //�G���j�b�g���o��������
+        //敵ユニットを出現させる
         if (st == 30)
         {
             cpu.setCPU(1, 1, eneLv);
@@ -202,6 +222,8 @@ public class Ttin : Game
             base.Update(gameTime);
         
     }
+
+    // #1 OOP化
     protected override void Draw(GameTime gameTime)
     {
         GraphicsDevice.Clear(Color.White);
@@ -226,7 +248,7 @@ public class Ttin : Game
                 }
                 catch
                 {
-                    Debug.WriteLine("���̃G���[���ƂŒ���");
+                    Debug.WriteLine("金のエラーあとで直す");
                 }
             }
             blast.paintBlast();
@@ -285,11 +307,8 @@ public class Ttin : Game
 
         base.Draw(gameTime);
     }
-    int lvch = -1;
-    int lvc = 0;
-    int lvx, lvy, rvx, rvy;
-    bool lvani = false, lvup = true, lvup2 = true;
-    string smess="";
+
+    // #1 内容確認次第だけどifがミートソース過ぎるので設計から見直す
     private void mousePressChk()
     { 
         MouseState state = Mouse.GetState();
@@ -304,6 +323,7 @@ public class Ttin : Game
         {
             ste = false;
         }
+
         if (icnch(state.X, state.Y))
         {
             icn = true;
@@ -312,19 +332,18 @@ public class Ttin : Game
         {
             icn = false;
         }
+
         if (state.LeftButton == ButtonState.Pressed)
-        {if(unitNo >=0)
-         
+        {
+            if(unitNo >=0)
                 if (gold >= blast.lv0(unitNo))
                 {
                     if (blast.setBlast(state.X, state.Y, unitNo))
                     {
                         unimap[state.Y / 40, state.X / 40] += 1;
                         gold -= blast.lv0(unitNo);
-                      
                     }
-                }
-            
+                }    
         }
 
 
@@ -338,6 +357,7 @@ public class Ttin : Game
        
         if (state.LeftButton == ButtonState.Pressed)
         {
+
             if (state.X >= posUni1.X && state.X < posUni1.X + 100) 
             {
                 if (state.Y >= posUni1.Y && state.Y < posUni1.Y + 100) 
@@ -345,6 +365,7 @@ public class Ttin : Game
                     unitNo = 0;
                 }
             }
+
             if (state.X >= posUni2.X && state.X < posUni2.X + 100)
             {
                 if (state.Y >= posUni2.Y && state.Y < posUni2.Y + 100)
@@ -353,6 +374,7 @@ public class Ttin : Game
                 }
 
             }
+
             if (state.X >= posG4.X && state.X < posG4.X + 100)
             {
                 if (state.Y >= posG4.Y && state.Y < posG4.Y + 40)
@@ -377,6 +399,7 @@ public class Ttin : Game
             }
 
         }
+
         if (state.RightButton == ButtonState.Released)
         {
             if (!lvup2)
@@ -384,6 +407,7 @@ public class Ttin : Game
                 lvup2 = true;
             }
         }
+
         if (state.RightButton == ButtonState.Pressed)
         {
             if (lvup2)
@@ -401,6 +425,7 @@ public class Ttin : Game
                 }
             }
         }
+
         if (state.LeftButton == ButtonState.Pressed)
         {
             if (state.X >= posG42.X && state.X < posG42.X + 100)
@@ -410,8 +435,7 @@ public class Ttin : Game
                     blast.unitexit(lvx, lvy);
                 }
             }
-        }
-            
+        }    
 
         if (state.LeftButton == ButtonState.Pressed)
         {
@@ -421,6 +445,7 @@ public class Ttin : Game
                 flg2 = false;
             }
         }
+
         if (state.LeftButton == ButtonState.Pressed)
         {
             if (state.X < 600 && state.Y < 600)
@@ -431,6 +456,7 @@ public class Ttin : Game
                 rvy = state.Y;
             }
         }
+
         if (state.RightButton == ButtonState.Pressed)
         {
             if (state.X < 600 && state.Y < 600)
@@ -441,8 +467,9 @@ public class Ttin : Game
                 rvy = state.Y;
             }
         }
+    }
 
-        }
+    // #1 内容確認次第だけどifがミートソース過ぎるので設計から見直す
     public bool icnch(int _x,int _y) 
     {
         if (_x >= posUni1.X && _x < posUni1.X + 100)
