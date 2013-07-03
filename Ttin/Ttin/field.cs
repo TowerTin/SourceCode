@@ -35,6 +35,9 @@ namespace Ttin
             this.unit_locate = unit_locate;
         }
 
+        /// <summary>
+        /// 特定ステージの初期状態を与える静的プロパティの例
+        /// </summary>
         static public field Stage_00
         {
             get
