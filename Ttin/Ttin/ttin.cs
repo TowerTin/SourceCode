@@ -43,12 +43,9 @@ public class Ttin : Game
     private Texture2D Tgazo, gazo2, icnimg;
     public Texture2D uni1, uni2, uni3, uni4, uni5, uni6, uni7, me3, me32, me4, me5;
 
-    // #1 ？
-    // update毎にカウントアップするタイミング調整用の変数らしい
-    // ToDo: 実装をゲーム時間ベースに変更する
-    int st = 0;
-
     // #2 シーン管理を導入しそちらへ
+    double scene_time = 0.0;
+
     private CPU cpu;
     private Unit blast;
     private CreateMap cmap;
@@ -207,13 +204,13 @@ public class Ttin : Game
         mousePressChk();
 
         //敵ユニットを出現させる
-        if (st == 30)
+        if (scene_time >= 1.0)
         {
             cpu.setCPU(1, 1, eneLv);
-            st = 0;
+            scene_time = scene_time - 1.0;
         }
         else
-            st++;
+            scene_time += gameTime.ElapsedGameTime.TotalSeconds;
 
         base.Update(gameTime);
     }
