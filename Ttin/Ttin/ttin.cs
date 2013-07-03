@@ -23,19 +23,21 @@ public class Ttin : Game
     // 画面中のクリック位置として使われているらしい
     // とりあえず定数のようだから定数メンバーにしとく。
     // ToDo: あとでもっと改善する。
-    const Vector2 pos1    = new Vector2(1  , 1)
-                , pos2    = new Vector2(600, 0)
-                , posNo   = new Vector2(600, 40)
-                , posUni1 = new Vector2(600, 200)
-                , posUni2 = new Vector2(700, 200)
-                , posUni3 = new Vector2(600, 300)
-                , posUni4 = new Vector2(700, 300)
-                , posUni5 = new Vector2(600, 400)
-                , posUni6 = new Vector2(700, 400)
-                , posUni7 = new Vector2(600, 500)
-                , posG4   = new Vector2(600, 120)
-                , posG42  = new Vector2(700, 120)
+    readonly Vector2 pos1    = new Vector2(1  , 1)
+                   , pos2    = new Vector2(600, 0)
+                   , posNo   = new Vector2(600, 40)
+                   , posUni1 = new Vector2(600, 200)
+                   , posUni2 = new Vector2(700, 200)
+                   , posUni3 = new Vector2(600, 300)
+                   , posUni4 = new Vector2(700, 300)
+                   , posUni5 = new Vector2(600, 400)
+                   , posUni6 = new Vector2(700, 400)
+                   , posUni7 = new Vector2(600, 500)
+                   , posG4   = new Vector2(600, 120)
+                   , posG42  = new Vector2(700, 120)
                 ;
+    // #1 これらは変数らしい。使い方が判明次第適切に実装変更する
+    Vector2 posG5, posUM, posUM2, posUM3;
 
     // #1 管理をオブジェクト化する
     private Texture2D Tgazo, gazo2, icnimg;

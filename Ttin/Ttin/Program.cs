@@ -9,7 +9,7 @@ using System.Diagnostics;
 using System.Collections.Generic;
 
 // #1 エントリーポイント分離
-public class Main
+public class Main_
 {
     public static void Main(string[] arg)
     {
