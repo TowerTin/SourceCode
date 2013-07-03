@@ -37,7 +37,7 @@ public class Ttin : Game
                    , posG42  = new Vector2(700, 120)
                 ;
     // #1 これらは変数らしい。使い方が判明次第適切に実装変更する
-    Vector2 posG5, posUM, posUM2, posUM3;
+    Vector2 posG5, posUM, posUM3;
 
     // #1 管理をオブジェクト化する
     private Texture2D Tgazo, gazo2, icnimg;
