@@ -14,6 +14,9 @@ namespace Ttin
     //敵ユニットの設定
     class CPU : DrawableGameComponent
     {
+        readonly Ttin ttin;
+        double scene_time = 0.0;
+
         const int BLASTSU = 255;
         public int[] x, y, mapNo, x1, y1, hp, lv, sped, kougeki, cont;
 
@@ -26,13 +29,14 @@ namespace Ttin
         List<Vector2> epos = new List<Vector2>();
 
         int[,] enemystat =
-    {  
-    /*{HP,攻撃力,移動速度,画像No. }  */       
-    {   100,1,5,0},                    
-    {   20,1,2,0},       
-    {   40,1,3,0},
-    { 1000,5,1,1}          
-    };
+            {  
+                // { HP, 攻撃力, 移動速度, 画像No. }
+                {   100,      1,        5,       0 },                    
+                {    20,      1,        2,       0 },       
+                {    40,      1,        3,       0 },
+                {  1000,      5,        1,       1 }
+            };
+
         int[] gname;
         int[] gname2;
 
@@ -48,10 +52,11 @@ namespace Ttin
         int gold = 0;
         public int[] swh;
 
-        //public CPU(GraphicsDevice g, SpriteBatch _sprite, int[,] _m, int eneNo)
         public CPU(Ttin ttin)
             : base(ttin)
         {
+            this.ttin = ttin;
+
             // #1 に伴い一時的にソースコード互換性の為
             var g = ttin.GraphicsDevice;
             var _sprite = ttin.sprite;
@@ -117,8 +122,34 @@ namespace Ttin
             sprite = _sprite;
         }
 
-        //敵ユニットの生成？
-        public void setCPU(int _x, int _y, int en)
+        public override void Update(GameTime gameTime)
+        {
+            // #1 CPUのDrawableGameComponent化に伴いTtin.Updateからコード移動
+            // 敵ユニットを出現させる
+            if (scene_time >= 1.0)
+            {
+                setCPU(1, 1, ttin.eneLv);
+                scene_time = scene_time - 1.0;
+            }
+            else
+                scene_time += gameTime.ElapsedGameTime.TotalSeconds;
+
+            base.Update(gameTime);
+        }
+
+        public override void Draw(GameTime gameTime)
+        {
+            base.Draw(gameTime);
+        }
+
+        
+        /// <summary>
+        /// 敵ユニットの生成
+        /// </summary>
+        /// <param name="_x">生成座標X</param>
+        /// <param name="_y">生成座標Y</param>
+        /// <param name="en">生成レベル</param>
+        void setCPU(int _x, int _y, int en)
         {
             for (int i = 0; i < BLASTSU; i++)
             {
@@ -139,7 +170,10 @@ namespace Ttin
         }
         int cnt = 0;
 
-        //アニメーションの更新（移動）
+        /// <summary>
+        /// アニメーションの更新（移動）
+        /// #1 これはアニメーションの状態更新なのでUpdateで処理すべき
+        /// </summary>
         public void animNoUpdate()
         {
             cnt++;
@@ -155,7 +189,14 @@ namespace Ttin
             }
         }
 
-        //敵ユニットの画像の描画（移動後、当たり判定付）
+        /// <summary>
+        /// 敵ユニットの画像の描画（移動後、当たり判定付）
+        /// #1 これはUpdateとDrawに適切にコードを分離する
+        ///    そもそも元の呼び出し元がTtin.Drawのようなのでそちらの修正と連動する必要あり
+        /// </summary>
+        /// <param name="bl">？</param>
+        /// <param name="en">？</param>
+        /// <returns></returns>
         public bool paintCPU(Unit bl, int en)
         {
 

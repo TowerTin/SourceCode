@@ -50,8 +50,6 @@ namespace Ttin
         public Texture2D uni1, uni2, uni3, uni4, uni5, uni6, uni7, me3, me32, me4, me5;
 
         // #2 シーン管理を導入しそちらへ
-        double scene_time = 0.0;
-
         public field field { get; private set; }
         CPU cpu;
         Unit blast;
@@ -97,8 +95,13 @@ namespace Ttin
 
             // #1 ctorパラメーターを抜本的に変更
             cpu = new CPU(this);
+            // #1 CPUのDrawableGameComponent化に伴いComponents管理化
+            Components.Add(cpu);
+
             // #1 ctorパラメーターを抜本的に変更
             blast = new Unit(this);
+            // #1 CPUのDrawableGameComponent化に伴いComponents管理化
+            Components.Add(blast);
 
             cmap = new CreateMap(Gm.GraphicsDevice, sprite);
 
@@ -148,6 +151,7 @@ namespace Ttin
         // #1 OOP化
         protected override void Update(GameTime gameTime)
         {
+            // Updateごとに1回だけゲーム全体に必要な処理
             KeyboardState state = Keyboard.GetState();
 
             if (state[Keys.D1] == KeyState.Down)
@@ -158,14 +162,10 @@ namespace Ttin
 
             mousePressChk();
 
-            //敵ユニットを出現させる
-            if (scene_time >= 1.0)
-            {
-                cpu.setCPU(1, 1, eneLv);
-                scene_time = scene_time - 1.0;
-            }
-            else
-                scene_time += gameTime.ElapsedGameTime.TotalSeconds;
+            // ComponentsからIUpdatableを回す
+            foreach (var c in Components)
+                if (c.GetType() is IUpdateable)
+                    ((IUpdateable)c).Update(gameTime);
 
             base.Update(gameTime);
         }
@@ -175,8 +175,9 @@ namespace Ttin
             GraphicsDevice.Clear(Color.White);
             sprite.Begin();
             sprite.Draw(Tgazo, pos1, Color.White);
-            foreach (IDrawable c in Components)
-                c.Draw(gameTime);
+            foreach (var c in Components)
+                if(c.GetType() is IDrawable)
+                    ((IDrawable)c).Draw(gameTime);
             sprite.End();
 
             // #1 OOPリファクタリング
