@@ -8,16 +8,20 @@ using System.Threading;
 using System.Diagnostics;
 using System.Collections.Generic;
 
-// #1 エントリーポイント分離
-public class Main_
+namespace Ttin
 {
-    public static void Main(string[] arg)
+
+    // #1 エントリーポイント分離
+    public class Main_
     {
-        using (Game g = new Ttin())
+        public static void Main(string[] arg)
         {
-            g.IsMouseVisible = true;
-            g.Run();
+            using (Game g = new Ttin())
+            {
+                g.IsMouseVisible = true;
+                g.Run();
+            }
         }
     }
-}
 
+}
