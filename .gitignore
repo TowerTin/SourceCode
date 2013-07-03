@@ -1,0 +1,9 @@
+[Bb]in
+[Oo]bj
+*.suo
+*.user
+*.[Cc]ache
+*.ncb
+*.log
+*.bak
+[Tt]humbs.db
