@@ -15,7 +15,7 @@ namespace Ttin
     class CPU : DrawableGameComponent
     {
         readonly Ttin ttin;
-        double scene_time = 0.0;
+        double time = 0.0;
 
         const int BLASTSU = 255;
         public int[] x, y, mapNo, x1, y1, hp, lv, sped, kougeki, cont;
@@ -126,13 +126,13 @@ namespace Ttin
         {
             // #1 CPUのDrawableGameComponent化に伴いTtin.Updateからコード移動
             // 敵ユニットを出現させる
-            if (scene_time >= 1.0)
+            if (time >= 1.0)
             {
                 setCPU(1, 1, ttin.eneLv);
-                scene_time = scene_time - 1.0;
+                time = time - 1.0;
             }
             else
-                scene_time += gameTime.ElapsedGameTime.TotalSeconds;
+                time += gameTime.ElapsedGameTime.TotalSeconds;
 
             base.Update(gameTime);
         }
