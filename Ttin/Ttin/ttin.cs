@@ -8,76 +8,55 @@ using System.Threading;
 using System.Diagnostics;
 using System.Collections.Generic;
 
-// #1 中間状態、close前にファイルも分ける
-public class player_unit : DrawableGameComponent
-{
-    Vector2 position { get; set; }
-
-    public override void Initialize()
-    {
-        base.Initialize();
-    }
-
-    protected override void LoadContent()
-    {
-        base.LoadContent();
-    }
-
-    public override void Update(GameTime gameTime)
-    {
-        base.Update(gameTime);
-    }
-
-    public override void Draw(GameTime gameTime)
-    {
-        base.Draw(gameTime);
-    }
-}
-
-public class field : DrawableGameComponent
-{
-    public override void Initialize()
-    {
-        base.Initialize();
-    }
-
-    protected override void LoadContent()
-    {
-        base.LoadContent();
-    }
-
-    public override void Update(GameTime gameTime)
-    {
-        base.Update(gameTime);
-    }
-
-    public override void Draw(GameTime gameTime)
-    {
-        base.Draw(gameTime);
-    }
-}
-
 public class Ttin : Game
 {
     private GraphicsDeviceManager Gm;
-    private SpriteBatch sprite;
+    // #1 に伴いプロパティpublicにget可能なプロパティに変更
+    public SpriteBatch sprite
+    {
+        get;
+        private set;
+    }
     private SpriteFont font;
 
     // #1 コードから意味がわかるように設計を変更
-    private Vector2 pos1, pos2, posNo, posUni2, posUni3, posUni4, posUni5, posUni6, posUni7, posUni1, posG4, posG42, posG5, posUM, posUM2, posUM3;
+    // 画面中のクリック位置として使われているらしい
+    // とりあえず定数のようだから定数メンバーにしとく。
+    // ToDo: あとでもっと改善する。
+    const Vector2 pos1    = new Vector2(1  , 1)
+                , pos2    = new Vector2(600, 0)
+                , posNo   = new Vector2(600, 40)
+                , posUni1 = new Vector2(600, 200)
+                , posUni2 = new Vector2(700, 200)
+                , posUni3 = new Vector2(600, 300)
+                , posUni4 = new Vector2(700, 300)
+                , posUni5 = new Vector2(600, 400)
+                , posUni6 = new Vector2(700, 400)
+                , posUni7 = new Vector2(600, 500)
+                , posG4   = new Vector2(600, 120)
+                , posG42  = new Vector2(700, 120)
+                ;
 
     // #1 管理をオブジェクト化する
     private Texture2D Tgazo, gazo2, icnimg;
     public Texture2D uni1, uni2, uni3, uni4, uni5, uni6, uni7, me3, me32, me4, me5;
 
     // #1 ？
+    // update毎にカウントアップするタイミング調整用の変数らしい
+    // ToDo: 実装をゲーム時間ベースに変更する
     int st = 0;
 
     // #2 シーン管理を導入しそちらへ
     private CPU cpu;
     private Unit blast;
     private CreateMap cmap;
-    public int[,] maptable, mapa, unimap;
+
+    // #1 に伴いとりあえずプロパティにしとく
+    // ToDo: あとでフィールドについてはシーン管理とも併せてよりOOP化する
+    public int[,] maptable { get; private set; }
+    public int[,] mapa { get; private set; }
+    public int[,] unimap { get; private set; }
+
     public Texture2D[] noimg;
     public bool flg = false;
     public bool flg2 = true;
@@ -99,31 +78,6 @@ public class Ttin : Game
         Gm = new GraphicsDeviceManager(this);
         Gm.PreferredBackBufferHeight = 600;
         Gm.PreferredBackBufferWidth = 800;
-        pos1.X = 1;
-        pos1.Y = 1;
-        pos2.X = 600;
-        pos2.Y = 0;
-        posNo.X = 600;
-        posNo.Y = 40;
-
-        posUni1.X = 600;
-        posUni1.Y = 200;
-        posUni2.X = 700;
-        posUni2.Y = 200;
-        posUni3.X = 600;
-        posUni3.Y = 300;
-        posUni4.X = 700;
-        posUni4.Y = 300;
-        posUni5.X = 600;
-        posUni5.Y = 400;
-        posUni6.X = 700;
-        posUni6.Y = 400;
-        posUni7.X = 600;
-        posUni7.Y = 500;
-        posG4.X = 600;
-        posG4.Y = 120;
-        posG42.X = 700;
-        posG42.Y = 120;
 
         //敵ユニットのルートマップ
         mapa = new int[,] { 
@@ -187,29 +141,30 @@ public class Ttin : Game
 
     protected override void Initialize()
     {
+        sprite = new SpriteBatch(GraphicsDevice);
+        font = Content.Load<SpriteFont>("Content/MS20");
+
+        cpu = new CPU(Gm.GraphicsDevice, sprite, mapa, eneLv);
+        // #1 ctorパラメーターを抜本的に変更
+        blast = new Unit(this);
+        cmap = new CreateMap(Gm.GraphicsDevice, sprite);
         base.Initialize();
     }
 
     // #2 シーンシステムごとにする
     protected override void LoadContent()
     {
-        font = Content.Load<SpriteFont>("Content/MS20");
-        sprite = new SpriteBatch(GraphicsDevice);
-        cpu = new CPU(Gm.GraphicsDevice, sprite, mapa, eneLv);
-        blast = new Unit(Gm.GraphicsDevice, sprite, unimap);
-        cmap = new CreateMap(Gm.GraphicsDevice, sprite);
         Tgazo = Content.Load<Texture2D>("Content/sampgame");
         gazo2 = Content.Load<Texture2D>("Content/sampgame2");
+
         for (int i = 0; i < 10; i++)
         {
-
             using (Stream stream = File.OpenRead("img/no" + i + ".png"))
             {
                 noimg[i] = Texture2D.FromStream(GraphicsDevice, stream);
             }
-
-
         }
+
         Stream s1 = File.OpenRead("img/luM.png");
         uni1 = Texture2D.FromStream(GraphicsDevice, s1);
         Stream s11 = File.OpenRead("img/luM.png");
@@ -241,15 +196,11 @@ public class Ttin : Game
     {
         KeyboardState state = Keyboard.GetState();
 
-
         if (state[Keys.D1] == KeyState.Down)
-        {
             unitNo = 1;
-        }
+
         if (state[Keys.D2] == KeyState.Down)
-        {
             unitNo = 2;
-        }
 
         mousePressChk();
 
@@ -260,19 +211,23 @@ public class Ttin : Game
             st = 0;
         }
         else
-        {
             st++;
-        }
-        base.Update(gameTime);
 
+        base.Update(gameTime);
     }
 
-    // #1 OOP化
     protected override void Draw(GameTime gameTime)
     {
         GraphicsDevice.Clear(Color.White);
         sprite.Begin();
-        //sprite.Draw(Tgazo, pos1, Color.White);
+        sprite.Draw(Tgazo, pos1, Color.White);
+        foreach (IDrawable c in Components)
+            c.Draw(gameTime);
+        sprite.End();
+
+        // #1 OOPリファクタリング
+        // この内容はOOP化してComponentsに放り込んでどうにかする
+        /*
         if (flg)
         {
             cmap.paintmap(maptable);
@@ -347,7 +302,7 @@ public class Ttin : Game
         {
             sprite.Draw(icnimg, posUM3, Color.White);
         }
-        sprite.End();
+        */
 
         base.Draw(gameTime);
     }
@@ -365,40 +320,25 @@ public class Ttin : Game
 
         }
         else
-        {
             ste = false;
-        }
 
         if (icnch(state.X, state.Y))
-        {
             icn = true;
-        }
         else
-        {
             icn = false;
-        }
 
         if (state.LeftButton == ButtonState.Pressed)
-        {
             if (unitNo >= 0)
                 if (gold >= blast.lv0(unitNo))
-                {
                     if (blast.setBlast(state.X, state.Y, unitNo))
                     {
                         unimap[state.Y / 40, state.X / 40] += 1;
                         gold -= blast.lv0(unitNo);
                     }
-                }
-        }
-
 
         if (state.LeftButton == ButtonState.Released)
-        {
             if (!lvup)
-            {
                 lvup = true;
-            }
-        }
 
         if (state.LeftButton == ButtonState.Pressed)
         {
@@ -446,19 +386,12 @@ public class Ttin : Game
         }
 
         if (state.RightButton == ButtonState.Released)
-        {
             if (!lvup2)
-            {
                 lvup2 = true;
-            }
-        }
 
         if (state.RightButton == ButtonState.Pressed)
-        {
             if (lvup2)
-            {
                 if (gold >= blast.lvnextcost(rvx, rvy))
-                {
                     if (blast.lvup(rvx, rvy))
                     {
                         gold -= blast.lvcost(rvx, rvy);
@@ -467,32 +400,22 @@ public class Ttin : Game
                         lvani = true;
                         lvup2 = false;
                     }
-                }
-            }
-        }
 
         if (state.LeftButton == ButtonState.Pressed)
-        {
             if (state.X >= posG42.X && state.X < posG42.X + 100)
-            {
                 if (state.Y >= posG42.Y && state.Y < posG42.Y + 40)
                 {
                     blast.unitexit(lvx, lvy);
                 }
-            }
-        }
 
         if (state.LeftButton == ButtonState.Pressed)
-        {
             if (flg2)
             {
                 flg = true;
                 flg2 = false;
             }
-        }
 
         if (state.LeftButton == ButtonState.Pressed)
-        {
             if (state.X < 600 && state.Y < 600)
             {
                 lvx = state.X;
@@ -500,10 +423,8 @@ public class Ttin : Game
                 rvx = state.X;
                 rvy = state.Y;
             }
-        }
 
         if (state.RightButton == ButtonState.Pressed)
-        {
             if (state.X < 600 && state.Y < 600)
             {
                 lvx = state.X;
@@ -511,7 +432,6 @@ public class Ttin : Game
                 rvx = state.X;
                 rvy = state.Y;
             }
-        }
     }
 
     // #1 内容確認次第だけどifがミートソース過ぎるので設計から見直す
