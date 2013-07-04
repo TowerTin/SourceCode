@@ -173,12 +173,13 @@ namespace Ttin
             if (state[Keys.D2] == KeyState.Down)
                 unitNo = 2;
 
-            mousePressChk();
-
             // ComponentsからIUpdatableを回す
             foreach (var c in Components)
                 if (c.GetType() is IUpdateable)
                     ((IUpdateable)c).Update(gameTime);
+
+            // #1 ToDo: input_stateクラスのUpdateと適切などこかへ処理を整理してこの関数は削除する
+            mousePressChk();
 
             base.Update(gameTime);
         }
