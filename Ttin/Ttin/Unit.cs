@@ -118,6 +118,16 @@ namespace Ttin
             }
         }
 
+        // #1 一時的な措置として定義
+        /// <summary>
+        /// setBlastをVector2形式のポインター座標から呼ぶラッパー
+        /// </summary>
+        /// <param name="pointer_position">ポインター座標</param>
+        /// <param name="_uni">？ #1 元のsetBlast関数から後ほど解読する必要あり</param>
+        /// <returns>？ #1 元のsetBlast関数から後ほど解読する必要あり</returns>
+        public bool setBlast(Vector2 pointer_position, int _uni)
+        { return setBlast((int)pointer_position.X, (int)pointer_position.Y, _uni); }
+
         //自群ユニットの配置
         public bool setBlast(int _x, int _y, int _uni)
         {
@@ -201,6 +211,15 @@ namespace Ttin
             }
             animNoUpdate();
         }
+
+        // #1 一時的な措置としてunisteとやらのVector2ラッパー
+        /// <summary>
+        /// unisteのVector2ラッパー
+        /// </summary>
+        /// <param name="pointer_position">ポインター座標</param>
+        /// <returns>？ #1 元のunisteを解読する必要あり</returns>
+        public string uniste(Vector2 pointer_position)
+        { return uniste((int)pointer_position.X, (int)pointer_position.Y); }
 
         //マウスカーソルが重なったユニットの次の強化コストなどを表示する
         public string uniste(int _x, int _y)

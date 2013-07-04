@@ -43,7 +43,10 @@ namespace Ttin
                     ;
 
         // #1 これらは変数らしい。使い方が判明次第適切に実装変更する
-        Vector2 posG5, posUM, posUM3;
+        Vector2 posG5
+              //, posUM // #1 input_state クラスへ役割を移動
+              , posUM3
+              ;
 
         // #1 管理をオブジェクト化する
         private Texture2D Tgazo, gazo2, icnimg;
@@ -51,13 +54,18 @@ namespace Ttin
 
         // #2 シーン管理を導入しそちらへ
         public field field { get; private set; }
+        inpute_state input;
         CPU cpu;
         Unit blast;
         CreateMap cmap;
 
         public Texture2D[] noimg;
+
+        // #1 ToDo: 意味が分からないフラグを意味がわかるようにリファクタリングする
+        //    DrawとUpdate内から呼ばれるmousePressChkなる関数で使われている模様
         public bool flg = false;
         public bool flg2 = true;
+        
         int unitNo = -1;
         int gold = 1000;
         int[] uniGo = { 0, 100, 120 };
@@ -69,6 +77,7 @@ namespace Ttin
 
         bool ste = false, icn = false;
 
+        // 意味わからん変数群
         int lvch = -1;
         int lvc = 0;
         int lvx, lvy, rvx, rvy;
@@ -92,6 +101,10 @@ namespace Ttin
 
             // #1 フィールマップのfieldクラス化による整理
             field = field.Stage_00;
+
+            // #1 入力状態の管理は input_state として整理した
+            input = new inpute_state();
+            Components.Add(input);
 
             // #1 ctorパラメーターを抜本的に変更
             cpu = new CPU(this);
@@ -263,61 +276,70 @@ namespace Ttin
         }
 
         // #1 内容確認次第だけどifがミートソース過ぎるので設計から見直す
+        // 基本的に入力状態管理は input_state クラスへ移動
+        // ToDo: 入力状態に基づく処理についてはそれぞれ適切な箇所へ移動する
+
         private void mousePressChk()
         {
-            MouseState state = Mouse.GetState();
-            posUM.X = state.X;
-            posUM.Y = state.Y;
-            if (blast.uniste(state.X, state.Y) != "")
+
+            // #1 input_state クラスへ移動
+            // MouseState state = Mouse.GetState();
+            // posUM.X = state.X;
+            // posUM.Y = state.Y;
+            
+            // #1 ToDo: この処理はユニット制御クラスのUpdateで行うべき
+            if (blast.uniste(input.pointer_position) != "")
             {
                 ste = true;
-                smess = blast.uniste(state.X, state.Y);
+                smess = blast.uniste(input.pointer_position);
 
             }
             else
                 ste = false;
 
-            if (icnch(state.X, state.Y))
+            // #1 ToDo: icnchが何なのかまるで読み取れないので解読次第対処する
+            if (icnch(input.pointer_position))
                 icn = true;
             else
                 icn = false;
 
-            if (state.LeftButton == ButtonState.Pressed)
+            if (input.button1_pressed)
                 if (unitNo >= 0)
                     if (gold >= blast.lv0(unitNo))
-                        if (blast.setBlast(state.X, state.Y, unitNo))
+                        if (blast.setBlast(input.pointer_position, unitNo))
                         {
-                            ++field.unit_locate[state.Y / 40, state.X / 40];
+                            var unit_position = input.pointer_position / 40;
+                            ++field.unit_locate[(int)unit_position.Y, (int)unit_position.X];
                             gold -= blast.lv0(unitNo);
                         }
 
-            if (state.LeftButton == ButtonState.Released)
+            if (input.button1_released)
                 if (!lvup)
                     lvup = true;
 
-            if (state.LeftButton == ButtonState.Pressed)
+            if (input.button1_pressed)
             {
 
-                if (state.X >= posUni1.X && state.X < posUni1.X + 100)
+                if (input.pointer_position.X >= posUni1.X && input.pointer_position.X < posUni1.X + 100)
                 {
-                    if (state.Y >= posUni1.Y && state.Y < posUni1.Y + 100)
+                    if (input.pointer_position.Y >= posUni1.Y && input.pointer_position.Y < posUni1.Y + 100)
                     {
                         unitNo = 0;
                     }
                 }
 
-                if (state.X >= posUni2.X && state.X < posUni2.X + 100)
+                if (input.pointer_position.X >= posUni2.X && input.pointer_position.X < posUni2.X + 100)
                 {
-                    if (state.Y >= posUni2.Y && state.Y < posUni2.Y + 100)
+                    if (input.pointer_position.Y >= posUni2.Y && input.pointer_position.Y < posUni2.Y + 100)
                     {
                         unitNo = 1;
                     }
 
                 }
 
-                if (state.X >= posG4.X && state.X < posG4.X + 100)
+                if (input.pointer_position.X >= posG4.X && input.pointer_position.X < posG4.X + 100)
                 {
-                    if (state.Y >= posG4.Y && state.Y < posG4.Y + 40)
+                    if (input.pointer_position.Y >= posG4.Y && input.pointer_position.Y < posG4.Y + 40)
                     {
                         if (lvup)
                         {
@@ -340,11 +362,11 @@ namespace Ttin
 
             }
 
-            if (state.RightButton == ButtonState.Released)
+            if (input.button2_released)
                 if (!lvup2)
                     lvup2 = true;
 
-            if (state.RightButton == ButtonState.Pressed)
+            if (input.button2_pressed)
                 if (lvup2)
                     if (gold >= blast.lvnextcost(rvx, rvy))
                         if (blast.lvup(rvx, rvy))
@@ -356,38 +378,47 @@ namespace Ttin
                             lvup2 = false;
                         }
 
-            if (state.LeftButton == ButtonState.Pressed)
-                if (state.X >= posG42.X && state.X < posG42.X + 100)
-                    if (state.Y >= posG42.Y && state.Y < posG42.Y + 40)
+            if (input.button1_pressed)
+                if (input.pointer_position..X >= posG42.X && input.pointer_position..X < posG42.X + 100)
+                    if (input.pointer_position.Y >= posG42.Y && input.pointer_position.Y < posG42.Y + 40)
                     {
                         blast.unitexit(lvx, lvy);
                     }
 
-            if (state.LeftButton == ButtonState.Pressed)
+            if (input.button1_pressed)
                 if (flg2)
                 {
                     flg = true;
                     flg2 = false;
                 }
 
-            if (state.LeftButton == ButtonState.Pressed)
-                if (state.X < 600 && state.Y < 600)
+            if (input.button1_pressed)
+                if (input.pointer_position.X < 600 && input.pointer_position.Y < 600)
                 {
-                    lvx = state.X;
-                    lvy = state.Y;
-                    rvx = state.X;
-                    rvy = state.Y;
+                    lvx = (int)input.pointer_position.X;
+                    lvy = (int)input.pointer_position.Y;
+                    rvx = (int)input.pointer_position.X;
+                    rvy = (int)input.pointer_position.Y;
                 }
 
-            if (state.RightButton == ButtonState.Pressed)
-                if (state.X < 600 && state.Y < 600)
+            if (input.button2_pressed)
+                if (input.pointer_position..X < 600 && input.pointer_position..Y < 600)
                 {
-                    lvx = state.X;
-                    lvy = state.Y;
-                    rvx = state.X;
-                    rvy = state.Y;
+                    lvx = (int)input.pointer_position.X;
+                    lvy = (int)input.pointer_position.Y;
+                    rvx = (int)input.pointer_position.X;
+                    rvy = (int)input.pointer_position.Y;
                 }
         }
+
+        // #1 一時的な措置
+        /// <summary>
+        /// icnchのVector2ラッパー
+        /// </summary>
+        /// <param name="pointer_position">ポインター座標</param>
+        /// <returns>？ #1 要・元解読</returns>
+        public bool icnch(Vector2 pointer_position)
+        { return icnch((int)pointer_position.X, (int)pointer_position.Y); }
 
         // #1 内容確認次第だけどifがミートソース過ぎるので設計から見直す
         public bool icnch(int _x, int _y)
