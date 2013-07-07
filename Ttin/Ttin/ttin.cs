@@ -54,7 +54,7 @@ namespace Ttin
 
         // #2 シーン管理を導入しそちらへ
         public field field { get; private set; }
-        inpute_state input;
+        inpute_manager input;
         CPU cpu;
         Unit blast;
         CreateMap cmap;
