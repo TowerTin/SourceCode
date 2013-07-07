@@ -13,7 +13,7 @@ namespace Ttin
     /// ユーザーからのUI入力状態を保持する構造体
     /// ToDo: マウス以外の方法でもポインター移動に対応する
     /// </summary>
-    public class inpute_manager : IUpdateable, IGameComponent
+    public class input_manager : IUpdateable, IGameComponent
     {
         /// <summary>
         /// 内部用マウス状態
@@ -135,7 +135,7 @@ namespace Ttin
         public event EventHandler<EventArgs> EnabledChanged;
         public event EventHandler<EventArgs> UpdateOrderChanged;
 
-        public inpute_state()
+        public input_manager()
         { Initialize(); }
 
         public void Initialize()

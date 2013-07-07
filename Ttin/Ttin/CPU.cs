@@ -52,14 +52,14 @@ namespace Ttin
         int gold = 0;
         public int[] swh;
 
-        public CPU(Ttin ttin)
-            : base(ttin)
+        public CPU(Game game)
+            : base(game)
         {
-            this.ttin = ttin;
+            this.ttin = game as Ttin;
 
             // #1 に伴い一時的にソースコード互換性の為
             var g = ttin.GraphicsDevice;
-            var _sprite = ttin.sprite;
+            var _sprite = ttin.sprite_batch;
             var _m = ttin.field.enemy_route;
             var eneNo = ttin.eneLv;
 

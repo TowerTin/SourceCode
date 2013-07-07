@@ -42,12 +42,14 @@ namespace Ttin
         private SpriteBatch sprite;
 
         // public Unit(GraphicsDevice g, SpriteBatch _sprite, int[,] _map)
-        public Unit(Ttin ttin)
-            : base(ttin)
+        public Unit(Game game)
+            : base(game)
         {
+            var ttin = game as Ttin;
+
             // #1 に伴いとりあえずは元のコードからの改変を最小限に抑える一時的な措置として
             var g = ttin.GraphicsDevice;
-            var _sprite = ttin.sprite;
+            var _sprite = ttin.sprite_batch;
             var _map = ttin.field.unit_locate;
 
             TBlast = new Texture2D[20];
