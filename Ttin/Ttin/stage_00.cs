@@ -70,11 +70,11 @@ namespace Ttin
 
         // #1 Ttinから移動。
         // ToDo: 挙動未整理。解読次第適切に対処。
-        CPU cpu;
+        enemmy_unit_manager enemmy_unit_manager;
 
         // #1 Ttinから移動。
         // ToDo: 挙動未整理。解読次第適切に対処。
-        Unit blast;
+        player_unit_manager player_unit_manager;
 
         // #1 Ttinから移動。
         // ToDo: 挙動未整理。解読次第適切に対処。
@@ -120,11 +120,11 @@ namespace Ttin
             // #1 フィールマップのfieldクラス化による整理
             field = field.Stage_00;
 
-            cpu = new CPU(Game);
-            components.Add(cpu);
-            
-            blast = new Unit(Game);
-            components.Add(blast);
+            enemmy_unit_manager = new enemmy_unit_manager(Game);
+            components.Add(enemmy_unit_manager);
+
+            player_unit_manager = new player_unit_manager(Game);
+            components.Add(player_unit_manager);
 
             cmap = new CreateMap(graphic_device_manager.GraphicsDevice, sprite_batch);
 

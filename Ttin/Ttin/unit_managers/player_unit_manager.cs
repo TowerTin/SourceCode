@@ -11,8 +11,12 @@ using System.Collections.Generic;
 namespace Ttin
 {
 
-    //自群ユニット全般
-    class Unit : DrawableGameComponent
+    /// <summary>
+    /// プレイヤーユニットを管理
+    /// #1 Todo: シーンとしての管理、個々のユニットのUpdate、Drawがごちゃ混ぜな状態を綺麗にする。
+    /// </summary>
+    // #1 ToDo: 管理だけならば Drawable ではなく単なるGameComponent化する
+    class player_unit_manager : DrawableGameComponent
     {
         // #1 これはなに？変数名を見た人が発狂するコードを書いてはいけません！
         const int BLASTSU = 225;
@@ -42,7 +46,7 @@ namespace Ttin
         private SpriteBatch sprite;
 
         // public Unit(GraphicsDevice g, SpriteBatch _sprite, int[,] _map)
-        public Unit(Game game)
+        public player_unit_manager(Game game)
             : base(game)
         {
             var ttin = game as Ttin;

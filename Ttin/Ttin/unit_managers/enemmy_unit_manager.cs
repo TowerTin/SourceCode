@@ -10,9 +10,12 @@ using System.Collections.Generic;
 
 namespace Ttin
 {
-
-    //敵ユニットの設定
-    class CPU : DrawableGameComponent
+    /// <summary>
+    /// 敵ユニットを管理
+    /// #1 Todo: シーンとしての管理、個々のユニットのUpdate、Drawがごちゃ混ぜな状態を綺麗にする。
+    /// </summary>
+    // #1 ToDo: 管理だけならば Drawable ではなく単なるGameComponent化する
+    class enemmy_unit_manager : DrawableGameComponent
     {
         readonly Ttin ttin;
         double time = 0.0;
@@ -52,7 +55,7 @@ namespace Ttin
         int gold = 0;
         public int[] swh;
 
-        public CPU(Game game)
+        public enemmy_unit_manager(Game game)
             : base(game)
         {
             this.ttin = game as Ttin;
