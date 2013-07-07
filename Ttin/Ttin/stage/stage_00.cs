@@ -8,36 +8,16 @@ using System.Threading;
 using System.Diagnostics;
 using System.Collections.Generic;
 
-namespace Ttin
+namespace Ttin.stage
 {
-    /// <summary>
-    /// #2 で実装予定のシーンシステムの#1に必要最小限の試作。
-    /// ToDo: #2 でコードを独立したファイルに分離する。
-    /// </summary>
-    class scene_base_prototype
-        : DrawableGameComponent
-    {
-        protected Ttin game { get { return Game as Ttin; } }
-        protected GameComponentCollection components { get { return game.Components; } }
-        protected ContentManager content_manager { get { return game.Content; } }
-        protected GraphicsDeviceManager graphic_device_manager { get { return game.graphic_device_manager; } }
-        protected SpriteBatch sprite_batch { get { return game.sprite_batch; } }
-        protected input_manager input_manager { get { return game.input_manager; } }
 
-        public override void Initialize()
-        {
-            base.Initialize();
-            UpdateOrder = -1;
-        }
-
-    }
 
     /// <summary>
     /// stage_00
     /// ToDo: #2 でシーンシステムを実装したならばシーン既定からの派生ないしインターフェース実装を行う
     /// </summary>
     public class stage_00
-        : scene_base_prototype
+        : system.scene_base_prototype
     {
         // #1 Ttinから移動。マウスクリックアクションの座標データ。
         // ToDo: よりよい実装にリファクタリングする
@@ -66,15 +46,15 @@ namespace Ttin
         private Texture2D Tgazo, gazo2, icnimg;
         public Texture2D uni1, uni2, uni3, uni4, uni5, uni6, uni7, me3, me32, me4, me5;
 
-        public field field { get; private set; }
+        public field.field field { get; private set; }
 
         // #1 Ttinから移動。
         // ToDo: 挙動未整理。解読次第適切に対処。
-        enemmy_unit_manager enemmy_unit_manager;
+        unit_manager.enemmy_unit_manager enemmy_unit_manager;
 
         // #1 Ttinから移動。
         // ToDo: 挙動未整理。解読次第適切に対処。
-        player_unit_manager player_unit_manager;
+        unit_manager.player_unit_manager player_unit_manager;
 
         // #1 Ttinから移動。
         // ToDo: 挙動未整理。解読次第適切に対処。
@@ -118,12 +98,12 @@ namespace Ttin
             base.Initialize();
 
             // #1 フィールマップのfieldクラス化による整理
-            field = field.Stage_00;
+            field = field.field.Stage_00;
 
-            enemmy_unit_manager = new enemmy_unit_manager(Game);
+            enemmy_unit_manager = new unit_manager.enemmy_unit_manager(Game);
             components.Add(enemmy_unit_manager);
 
-            player_unit_manager = new player_unit_manager(Game);
+            player_unit_manager = new unit_manager.player_unit_manager(Game);
             components.Add(player_unit_manager);
 
             cmap = new CreateMap(graphic_device_manager.GraphicsDevice, sprite_batch);

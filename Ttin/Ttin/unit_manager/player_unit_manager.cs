@@ -8,7 +8,7 @@ using System.Threading;
 using System.Diagnostics;
 using System.Collections.Generic;
 
-namespace Ttin
+namespace Ttin.unit_manager
 {
 
     /// <summary>

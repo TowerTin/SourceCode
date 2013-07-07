@@ -7,7 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace Ttin
+namespace Ttin.system
 {
     /// <summary>
     /// ユーザーからのUI入力状態を保持する構造体
