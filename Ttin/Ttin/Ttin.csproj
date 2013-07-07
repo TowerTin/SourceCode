@@ -119,6 +119,7 @@
     <Compile Include="Program.cs" />
     <Compile Include="stage\stage_00.cs" />
     <Compile Include="ttin.cs" />
+    <Compile Include="unit_manager\player_unit.cs" />
     <Compile Include="unit_manager\player_unit_manager.cs" />
   </ItemGroup>
   <ItemGroup>
