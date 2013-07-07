@@ -57,6 +57,9 @@ namespace Ttin
                 if (c.GetType() is IUpdateable)
                     ((IUpdateable)c).Update(gameTime);
 
+            if (input_manager.exit_pressed)
+                Exit();
+
             base.Update(gameTime);
         }
 
