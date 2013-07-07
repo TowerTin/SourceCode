@@ -21,6 +21,7 @@ namespace Ttin
         protected GameComponentCollection components { get { return game.Components; } }
         protected ContentManager content_manager { get { return game.Content; } }
         protected GraphicsDeviceManager graphic_device_manager { get { return game.graphic_device_manager; } }
+        protected SpriteBatch sprite_batch { get { return game.sprite_batch; } }
         protected input_manager input_manager { get { return game.input_manager; } }
 
         public override void Initialize()
@@ -28,6 +29,7 @@ namespace Ttin
             base.Initialize();
             UpdateOrder = -1;
         }
+
     }
 
     /// <summary>
@@ -172,10 +174,10 @@ namespace Ttin
 
         public override void Update(GameTime gameTime)
         {
-            if (state[Keys.D1] == KeyState.Down)
+            if (input_manager.button1_pressed)
                 unitNo = 1;
 
-            if (state[Keys.D2] == KeyState.Down)
+            if (input_manager.button2_pressed)
                 unitNo = 2;
 
             // #1 Ttinから移動。
