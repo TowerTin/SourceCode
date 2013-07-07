@@ -108,6 +108,17 @@ namespace Ttin
         }
 
         /// <summary>
+        /// 終了ボタンが押されているか
+        /// </summary>
+        public bool exit_pressed
+        {
+            get
+            {
+                return keyboard_is_pressed(Keys.Escape);
+            }
+        }
+
+        /// <summary>
         /// ボタン1が押されていないか
         /// #1 既存コードへの互換性の為に定義したが、単純に否定を取ればよいだけなので実際問題わざわざここでプロパティを定義すべきか疑問
         /// </summary>
@@ -128,6 +139,10 @@ namespace Ttin
         /// ボタン5が押されていないか
         /// </summary>
         public bool button5_released { get { return !button5_pressed; } }
+        /// <summary>
+        /// 終了ボタンが押されていないか
+        /// </summary>
+        public bool exit_released { get { return !exit_pressed; } }
 
         public bool Enabled { get; private set; }
         public int UpdateOrder { get; private set; }
