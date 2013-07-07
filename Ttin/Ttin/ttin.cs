@@ -403,7 +403,7 @@ namespace Ttin
                 }
 
             if (input.button2_pressed)
-                if (input.pointer_position..X < 600 && input.pointer_position..Y < 600)
+                if (input.pointer_position.X < 600 && input.pointer_position..Y < 600)
                 {
                     lvx = (int)input.pointer_position.X;
                     lvy = (int)input.pointer_position.Y;
