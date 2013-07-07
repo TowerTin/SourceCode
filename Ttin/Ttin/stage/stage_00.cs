@@ -17,24 +17,8 @@ namespace Ttin.stage
     /// ToDo: #2 でシーンシステムを実装したならばシーン既定からの派生ないしインターフェース実装を行う
     /// </summary>
     public class stage_00
-        : system.scene_base_prototype
+        : stage_base
     {
-        // #1 Ttinから移動。マウスクリックアクションの座標データ。
-        // ToDo: よりよい実装にリファクタリングする
-        readonly Vector2 pos1 = new Vector2(1, 1)
-                       , pos2 = new Vector2(600, 0)
-                       , posNo = new Vector2(600, 40)
-                       , posUni1 = new Vector2(600, 200)
-                       , posUni2 = new Vector2(700, 200)
-                       , posUni3 = new Vector2(600, 300)
-                       , posUni4 = new Vector2(700, 300)
-                       , posUni5 = new Vector2(600, 400)
-                       , posUni6 = new Vector2(700, 400)
-                       , posUni7 = new Vector2(600, 500)
-                       , posG4 = new Vector2(600, 120)
-                       , posG42 = new Vector2(700, 120)
-                    ;
-
         // #1 Ttinから移動。
         // ToDo: 謎変数。解読次第適切に対処。
         Vector2 posG5
@@ -47,18 +31,6 @@ namespace Ttin.stage
         public Texture2D uni1, uni2, uni3, uni4, uni5, uni6, uni7, me3, me32, me4, me5;
 
         public field.field field { get; private set; }
-
-        // #1 Ttinから移動。
-        // ToDo: 挙動未整理。解読次第適切に対処。
-        unit_manager.enemmy_unit_manager enemmy_unit_manager;
-
-        // #1 Ttinから移動。
-        // ToDo: 挙動未整理。解読次第適切に対処。
-        unit_manager.player_unit_manager player_unit_manager;
-
-        // #1 Ttinから移動。
-        // ToDo: 挙動未整理。解読次第適切に対処。
-        CreateMap cmap;
 
         // #1 Ttinから移動。
         // ToDo: 謎変数。解読次第適切に対処。
@@ -93,22 +65,7 @@ namespace Ttin.stage
         bool lvani = false, lvup = true, lvup2 = true;
         string smess = "";
 
-        public override void Initialize()
-        {
-            base.Initialize();
-
-            // #1 フィールマップのfieldクラス化による整理
-            field = field.field.Stage_00;
-
-            enemmy_unit_manager = new unit_manager.enemmy_unit_manager(Game);
-            components.Add(enemmy_unit_manager);
-
-            player_unit_manager = new unit_manager.player_unit_manager(Game);
-            components.Add(player_unit_manager);
-
-            cmap = new CreateMap(graphic_device_manager.GraphicsDevice, sprite_batch);
-
-        }
+        public stage_00(Game game) : base(game) { }
 
         protected override void LoadContent()
         {
@@ -169,7 +126,7 @@ namespace Ttin.stage
 
         public override void Draw(GameTime gameTime)
         {
-            sprite_batch.Draw(Tgazo, pos1, Color.White);
+            //sprite_batch.Draw(Tgazo, pos1, Color.White);
 
             // #1 Ttinから移動。
             // ToDo: 未解読。解読して適切に対処する。
@@ -258,10 +215,10 @@ namespace Ttin.stage
         void mousePressChk()
         {
             // #1 ToDo: この処理はユニット制御クラスのUpdateで行うべき
-            if (blast.uniste(input_manager.pointer_position) != "")
+            if (player_unit_manager.uniste(input_manager.pointer_position) != "")
             {
                 ste = true;
-                smess = blast.uniste(input_manager.pointer_position);
+                smess = player_unit_manager.uniste(input_manager.pointer_position);
 
             }
             else
@@ -275,12 +232,12 @@ namespace Ttin.stage
 
             if (input_manager.button1_pressed)
                 if (unitNo >= 0)
-                    if (gold >= blast.lv0(unitNo))
-                        if (blast.setBlast(input_manager.pointer_position, unitNo))
+                    if (gold >= player_unit_manager.lv0(unitNo))
+                        if (player_unit_manager.setBlast(input_manager.pointer_position, unitNo))
                         {
                             var unit_position = input_manager.pointer_position / 40;
                             ++field.unit_locate[(int)unit_position.Y, (int)unit_position.X];
-                            gold -= blast.lv0(unitNo);
+                            gold -= player_unit_manager.lv0(unitNo);
                         }
 
             if (input_manager.button1_released)
@@ -313,11 +270,11 @@ namespace Ttin.stage
                     {
                         if (lvup)
                         {
-                            if (gold >= blast.lvnextcost(lvx, lvy))
+                            if (gold >= player_unit_manager.lvnextcost(lvx, lvy))
                             {
-                                if (blast.lvup(lvx, lvy))
+                                if (player_unit_manager.lvup(lvx, lvy))
                                 {
-                                    gold -= blast.lvcost(lvx, lvy);
+                                    gold -= player_unit_manager.lvcost(lvx, lvy);
                                     posG5.X = (lvx / 40) * 40;
                                     posG5.Y = (lvy / 40) * 40;
                                     lvani = true;
@@ -338,10 +295,10 @@ namespace Ttin.stage
 
             if (input_manager.button2_pressed)
                 if (lvup2)
-                    if (gold >= blast.lvnextcost(rvx, rvy))
-                        if (blast.lvup(rvx, rvy))
+                    if (gold >= player_unit_manager.lvnextcost(rvx, rvy))
+                        if (player_unit_manager.lvup(rvx, rvy))
                         {
-                            gold -= blast.lvcost(rvx, rvy);
+                            gold -= player_unit_manager.lvcost(rvx, rvy);
                             posG5.X = (rvx / 40) * 40;
                             posG5.Y = (rvy / 40) * 40;
                             lvani = true;
@@ -349,10 +306,10 @@ namespace Ttin.stage
                         }
 
             if (input_manager.button1_pressed)
-                if (input_manager.pointer_position..X >= posG42.X && input_manager.pointer_position..X < posG42.X + 100)
+                if (input_manager.pointer_position.X >= posG42.X && input_manager.pointer_position.X < posG42.X + 100)
                     if (input_manager.pointer_position.Y >= posG42.Y && input_manager.pointer_position.Y < posG42.Y + 40)
                     {
-                        blast.unitexit(lvx, lvy);
+                        player_unit_manager.unitexit(lvx, lvy);
                     }
 
             if (input_manager.button1_pressed)
@@ -372,7 +329,7 @@ namespace Ttin.stage
                 }
 
             if (input_manager.button2_pressed)
-                if (input_manager.pointer_position.X < 600 && input_manager.pointer_position..Y < 600)
+                if (input_manager.pointer_position.X < 600 && input_manager.pointer_position.Y < 600)
                 {
                     lvx = (int)input_manager.pointer_position.X;
                     lvy = (int)input_manager.pointer_position.Y;

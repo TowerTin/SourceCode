@@ -13,7 +13,7 @@ namespace Ttin.system
     /// <summary>
     /// #2 で実装予定のシーンシステムの#1に必要最小限の試作。
     /// </summary>
-    class scene_base_prototype
+    public class scene_base_prototype
         : DrawableGameComponent
     {
         protected Ttin game { get { return Game as Ttin; } }
@@ -22,6 +22,8 @@ namespace Ttin.system
         protected GraphicsDeviceManager graphic_device_manager { get { return game.graphic_device_manager; } }
         protected SpriteBatch sprite_batch { get { return game.sprite_batch; } }
         protected input_manager input_manager { get { return game.input_manager; } }
+
+        public scene_base_prototype(Game game) : base(game) { }
 
         public override void Initialize()
         {

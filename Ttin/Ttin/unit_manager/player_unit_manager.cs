@@ -16,7 +16,7 @@ namespace Ttin.unit_manager
     /// #1 Todo: シーンとしての管理、個々のユニットのUpdate、Drawがごちゃ混ぜな状態を綺麗にする。
     /// </summary>
     // #1 ToDo: 管理だけならば Drawable ではなく単なるGameComponent化する
-    class player_unit_manager : DrawableGameComponent
+    public class player_unit_manager : DrawableGameComponent
     {
         // #1 これはなに？変数名を見た人が発狂するコードを書いてはいけません！
         const int BLASTSU = 225;
@@ -54,7 +54,7 @@ namespace Ttin.unit_manager
             // #1 に伴いとりあえずは元のコードからの改変を最小限に抑える一時的な措置として
             var g = ttin.GraphicsDevice;
             var _sprite = ttin.sprite_batch;
-            var _map = ttin.field.unit_locate;
+            //var _map = ttin.field.unit_locate;
 
             TBlast = new Texture2D[20];
             for (int i = 0; i < 15; i++)
@@ -92,7 +92,7 @@ namespace Ttin.unit_manager
             ren = new int[BLASTSU];
             lv = new int[BLASTSU];
             unit = new int[BLASTSU];
-            map = _map;
+            //map = _map;
 
             //配置したユニットの種類を記憶
             unisyu = new int[,]

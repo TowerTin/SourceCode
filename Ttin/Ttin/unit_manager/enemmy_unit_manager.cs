@@ -15,7 +15,7 @@ namespace Ttin.unit_manager
     /// #1 Todo: シーンとしての管理、個々のユニットのUpdate、Drawがごちゃ混ぜな状態を綺麗にする。
     /// </summary>
     // #1 ToDo: 管理だけならば Drawable ではなく単なるGameComponent化する
-    class enemmy_unit_manager : DrawableGameComponent
+    public class enemmy_unit_manager : DrawableGameComponent
     {
         readonly Ttin ttin;
         double time = 0.0;
@@ -45,7 +45,7 @@ namespace Ttin.unit_manager
 
         Vector2[] pos;
         private Vector3 pos3, poss;
-        public HitBox hb;
+        //public HitBox hb;
         private Texture2D[] TBlast;
         private SpriteBatch sprite;
         BoundingSphere bs1, bs2;
@@ -63,8 +63,8 @@ namespace Ttin.unit_manager
             // #1 に伴い一時的にソースコード互換性の為
             var g = ttin.GraphicsDevice;
             var _sprite = ttin.sprite_batch;
-            var _m = ttin.field.enemy_route;
-            var eneNo = ttin.eneLv;
+            //var _m = ttin.field.enemy_route;
+            //var eneNo = ttin.eneLv;
 
             pos = new Vector2[BLASTSU];
 
@@ -79,8 +79,8 @@ namespace Ttin.unit_manager
             sped = new int[BLASTSU];
             kougeki = new int[BLASTSU];
             cont = new int[BLASTSU];
-            hb = new HitBox();
-            map = _m;
+            //hb = new HitBox();
+            //map = _m;
 
             TBlast = new Texture2D[64];
             gname = new int[BLASTSU];
@@ -96,7 +96,7 @@ namespace Ttin.unit_manager
                 y1[i] = 0;
                 swh[i] = 0;
                 mapNo[i] = -1;
-                hp[i] = enemystat[eneNo, 0];
+                //hp[i] = enemystat[eneNo, 0];
                 lv[i] = 99;
                 cont[i] = 10;
                 sped[i] = 0;
@@ -131,7 +131,7 @@ namespace Ttin.unit_manager
             // 敵ユニットを出現させる
             if (time >= 1.0)
             {
-                setCPU(1, 1, ttin.eneLv);
+                //setCPU(1, 1, ttin.eneLv);
                 time = time - 1.0;
             }
             else
@@ -200,7 +200,7 @@ namespace Ttin.unit_manager
         /// <param name="bl">？</param>
         /// <param name="en">？</param>
         /// <returns></returns>
-        public bool paintCPU(Unit bl, int en)
+        public bool paintCPU(unit_manager.player_unit_manager bl, int en)
         {
 
             for (int i = 0; i < BLASTSU; i++)
@@ -305,7 +305,7 @@ namespace Ttin.unit_manager
                             bl.turn(ii);
 
 
-                            if (hb.hitcheck2(bs1, bs2))
+                            //if (hb.hitcheck2(bs1, bs2))
                             {
                                 if (bl.interval(ii))
                                 {

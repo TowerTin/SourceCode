@@ -17,7 +17,7 @@ namespace Ttin
         public const int width_in_pixels = 800;
         public const int height_in_pixels = 600;
         const string content_sprite_font = "Content/MS20";
-        const Type first_scene = typeof(stage.stage_00);
+        readonly Type first_scene = typeof(stage.stage_00);
 
         public GraphicsDeviceManager graphic_device_manager { get; private set; }
         public SpriteBatch sprite_batch { get; private set; }

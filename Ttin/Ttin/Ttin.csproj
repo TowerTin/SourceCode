@@ -107,6 +107,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="stage\stage_base.cs" />
     <Compile Include="system\base_system.cs" />
     <Compile Include="system\scene_system.cs" />
     <Compile Include="unit_manager\enemmy_unit_manager.cs" />
