@@ -107,15 +107,16 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CPU.cs" />
+    <Compile Include="unit_managers\enemmy_unit_manager.cs" />
     <Compile Include="CreateMap.cs" />
     <Compile Include="field.cs" />
     <Compile Include="HitBox.cs" />
-    <Compile Include="inpute_state.cs" />
+    <Compile Include="inpute_manager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Program.cs" />
+    <Compile Include="stage_00.cs" />
     <Compile Include="ttin.cs" />
-    <Compile Include="Unit.cs" />
+    <Compile Include="unit_managers\player_unit_manager.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Game.ico" />
