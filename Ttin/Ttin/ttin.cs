@@ -18,12 +18,15 @@ namespace Ttin
         public const int height_in_pixels = 600;
         const string content_sprite_font = "Content/MS20";
         readonly Type first_scene = typeof(stage.stage_00);
+        const Color default_clear_color = Color.White;
 
         public GraphicsDeviceManager graphic_device_manager { get; private set; }
         public SpriteBatch sprite_batch { get; private set; }
         public SpriteFont sprite_font { get; private set; }
 
         public system.input_manager input_manager { get; private set; }
+
+        public Color clear_color { get; set; }
 
         public Ttin()
         {
@@ -40,6 +43,8 @@ namespace Ttin
 
             Window.AllowUserResizing = false;
             Window.Title = title;
+
+            clear_color = default_clear_color;
 
             base.Initialize();
         }
@@ -65,7 +70,7 @@ namespace Ttin
 
         protected override void Draw(GameTime gameTime)
         {
-            GraphicsDevice.Clear(Color.White);
+            GraphicsDevice.Clear(clear_color);
 
             sprite_batch.Begin();
 
