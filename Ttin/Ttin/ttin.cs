@@ -7,6 +7,7 @@ using System.IO;
 using System.Threading;
 using System.Diagnostics;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Ttin
 {
@@ -58,9 +59,8 @@ namespace Ttin
 
         protected override void Update(GameTime gameTime)
         {
-            foreach (var c in Components)
-                if (c.GetType() is IUpdateable)
-                    ((IUpdateable)c).Update(gameTime);
+            foreach (var c in from c in Components where c.GetType() is IUpdateable select (IUpdateable)c)
+                c.Update(gameTime);
 
             if (input_manager.exit_pressed)
                 Exit();
@@ -74,9 +74,8 @@ namespace Ttin
 
             sprite_batch.Begin();
 
-            foreach (var c in Components)
-                if(c.GetType() is IDrawable)
-                    ((IDrawable)c).Draw(gameTime);
+            foreach (var c in from c in Components where c.GetType() is IDrawable select (IDrawable)c)
+                c.Draw(gameTime);
 
             sprite_batch.End();
 
