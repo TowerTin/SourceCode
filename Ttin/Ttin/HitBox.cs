@@ -10,12 +10,12 @@ using System.Collections.Generic;
 
 
 //ユニットと敵の当たり判定
- class HitBox
+class HitBox
 {
-     public HitBox()
-     {
-         //コンストラクタ
-     }
+    public HitBox()
+    {
+        //コンストラクタ
+    }
     public bool hitcheck(BoundingSphere sphere, BoundingBox box)
     {
         //ユニット（キャラリオ専用）と敵の当たり判定
