@@ -11,7 +11,6 @@ using System.Collections.Generic;
 namespace Ttin.stage
 {
 
-
     /// <summary>
     /// stage_00
     /// ToDo: #2 でシーンシステムを実装したならばシーン既定からの派生ないしインターフェース実装を行う
@@ -19,6 +18,7 @@ namespace Ttin.stage
     public class stage_00
         : stage_base
     {
+
         // #1 Ttinから移動。
         // ToDo: 謎変数。解読次第適切に対処。
         Vector2 posG5
