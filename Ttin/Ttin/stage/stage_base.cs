@@ -18,7 +18,14 @@ namespace Ttin.stage
     public abstract class stage_base
         : system.scene_base_prototype
     {
+        /// <summary>
+        /// プレイヤーユニットUI用の画像
+        /// </summary>
+        protected const string ui_player_unit_resource = "sampgame2.png";
+
         protected readonly List<BoundingBox> ui_player_unit_boundings = new List<BoundingBox>();
+
+        protected Texture2D ui_player_unit_image;
 
         // #1 stage_00から分離。マウスクリックアクションの座標データ。
         // ToDo: よりよい実装にリファクタリングする
@@ -29,7 +36,7 @@ namespace Ttin.stage
           , posG4 = new Vector2(600, 120)
           , posG42 = new Vector2(700, 120)
           ;
-
+        
         // #1 stage_00から分離。
         // ToDo: 挙動未整理。解読次第適切に対処。
         protected unit_manager.enemmy_unit_manager enemmy_unit_manager;
@@ -83,6 +90,13 @@ namespace Ttin.stage
 
         }
 
+        protected override void LoadContent()
+        {
+            ui_player_unit_image = content.Load<Texture2D>(ui_player_unit_resource);
+
+            base.LoadContent();
+        }
+
         public override void Update(GameTime gameTime)
         {
             var test = test_ui_player_unit();
@@ -90,6 +104,13 @@ namespace Ttin.stage
                 ui_player_unit(test.Item2);
 
             base.Update(gameTime);
+        }
+
+        public override void Draw(GameTime gameTime)
+        {
+            sprite_batch.Draw(ui_player_unit_image, new Vector2(600, 200), Color.White);
+
+            base.Draw(gameTime);
         }
 
         /// <summary>

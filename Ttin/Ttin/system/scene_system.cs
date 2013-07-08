@@ -17,6 +17,7 @@ namespace Ttin.system
         : DrawableGameComponent
     {
         protected Ttin game { get { return Game as Ttin; } }
+        protected ContentManager content { get { return Game.Content; } }
         protected GameComponentCollection components { get { return game.Components; } }
         protected ContentManager content_manager { get { return game.Content; } }
         protected GraphicsDeviceManager graphic_device_manager { get { return game.graphic_device_manager; } }
