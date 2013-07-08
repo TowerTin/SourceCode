@@ -18,6 +18,12 @@ namespace Ttin.stage
     public class stage_00
         : stage_base
     {
+        /// <summary>
+        /// 背景画像のリソース名
+        /// 文字列を指定さえすれば基底クラスがよしなに
+        /// </summary>
+        protected override string background_resource
+        { get { return "sampgame.png"; } }
 
         // #1 Ttinから移動。
         // ToDo: 謎変数。解読次第適切に対処。
@@ -27,7 +33,7 @@ namespace Ttin.stage
 
         // #1 Ttinから移動。
         // ToDo: 謎変数。解読次第適切に対処。
-        private Texture2D Tgazo, gazo2, icnimg;
+        private Texture2D icnimg;
         public Texture2D uni1, uni2, uni3, uni4, uni5, uni6, uni7, me3, me32, me4, me5;
 
         public field.field field { get; private set; }
@@ -72,8 +78,6 @@ namespace Ttin.stage
             base.LoadContent();
 
             noimg = new Texture2D[10];
-            Tgazo = content_manager.Load<Texture2D>("Content/sampgame");
-            gazo2 = content_manager.Load<Texture2D>("Content/sampgame2");
 
             for (int i = 0; i < 10; i++)
             {
@@ -126,8 +130,6 @@ namespace Ttin.stage
 
         public override void Draw(GameTime gameTime)
         {
-            //sprite_batch.Draw(Tgazo, pos1, Color.White);
-
             // #1 Ttinから移動。
             // ToDo: 未解読。解読して適切に対処する。
             /*

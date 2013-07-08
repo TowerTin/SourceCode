@@ -19,12 +19,18 @@ namespace Ttin.stage
         : system.scene_base_prototype
     {
         /// <summary>
-        /// プレイヤーユニットUI用の画像
+        /// プレイヤーユニットUI用の画像リソース名
         /// </summary>
         protected const string ui_player_unit_resource = "sampgame2.png";
 
+        /// <summary>
+        /// 背景画像リソース名
+        /// </summary>
+        protected virtual string background_resource { get { throw new NotImplementedException(); } }
+
         protected readonly List<BoundingBox> ui_player_unit_boundings = new List<BoundingBox>();
 
+        protected Texture2D background_image;
         protected Texture2D ui_player_unit_image;
 
         // #1 stage_00から分離。マウスクリックアクションの座標データ。
@@ -92,6 +98,7 @@ namespace Ttin.stage
 
         protected override void LoadContent()
         {
+            background_image = content.Load<Texture2D>(background_resource);
             ui_player_unit_image = content.Load<Texture2D>(ui_player_unit_resource);
 
             base.LoadContent();
@@ -108,6 +115,9 @@ namespace Ttin.stage
 
         public override void Draw(GameTime gameTime)
         {
+            // 背景
+            sprite_batch.Draw(background_image, Vector2.Zero, Color.White);
+            // プレイヤーユニットUI
             sprite_batch.Draw(ui_player_unit_image, new Vector2(600, 200), Color.White);
 
             base.Draw(gameTime);

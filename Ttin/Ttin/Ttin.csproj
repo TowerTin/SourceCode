@@ -107,13 +107,13 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="field\field_00.cs" />
     <Compile Include="stage\stage_base.cs" />
-    <Compile Include="system\base_system.cs" />
     <Compile Include="system\scene_system.cs" />
     <Compile Include="unit_manager\enemmy_unit_manager.cs" />
     <Compile Include="CreateMap.cs" />
     <Compile Include="field\field.cs" />
-    <Compile Include="HitBox.cs" />
+    <Compile Include="system\helper.cs" />
     <Compile Include="system\input_manager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Program.cs" />
