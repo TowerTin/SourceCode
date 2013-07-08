@@ -27,25 +27,27 @@ namespace Ttin.stage
 
         // #1 Ttinから移動。
         // ToDo: 謎変数。解読次第適切に対処。
-        Vector2 posG5
-              , posUM3
+        Vector2 posG5  // 右側のよくわからん
+              , posUM3 // 右側のよくわからん
               ;
 
         // #1 Ttinから移動。
         // ToDo: 謎変数。解読次第適切に対処。
-        private Texture2D icnimg;
-        public Texture2D uni1, uni2, uni3, uni4, uni5, uni6, uni7, me3, me32, me4, me5;
+        private Texture2D icnimg; // 右側のアイコンかマウスオーバーの時のアイコン
+        public Texture2D uni1, uni2, uni3, uni4, uni5, uni6, uni7 // // プレイヤーユニット（右側）の絵
+                       , me3, me32, me4, me5 // マウスオーバー時のチップス
+                       ;
 
         public field.field field { get; private set; }
 
         // #1 Ttinから移動。
         // ToDo: 謎変数。解読次第適切に対処。
-        public Texture2D[] noimg;
+        public Texture2D[] noimg; // 敵とプレイヤーユニットのアニメーション
 
         // #1 Ttinから移動。
         // ToDo: 謎変数。解読次第適切に対処。
-        public bool flg = false;
-        public bool flg2 = true;
+        public bool flg = false; // ゲーム開始前か後か
+        public bool flg2 = true; // わかんないらしい
 
         // #1 Ttinから移動。
         // ToDo: 謎変数。解読次第適切に対処。
@@ -56,20 +58,23 @@ namespace Ttin.stage
 
         // #1 Ttinから移動。
         // ToDo: 謎変数。解読次第適切に対処。
+        // 敵ユニットのインデックス
         public int eneLv { get { return _eneLv; } private set { _eneLv = value; } }
         int _eneLv = 0;
 
         // #1 Ttinから移動。
         // ToDo: 謎変数。解読次第適切に対処。
-        bool ste = false, icn = false;
+        bool ste = false // わかんない
+           , icn = false // わかんない（あいこんがでるかでないか？）
+           ;
 
         // #1 Ttinから移動。
         // ToDo: 謎変数。解読次第適切に対処。
-        int lvch = -1;
-        int lvc = 0;
-        int lvx, lvy, rvx, rvy;
-        bool lvani = false, lvup = true, lvup2 = true;
-        string smess = "";
+        int lvch = -1; // レベルチェック。用途不明
+        int lvc = 0; // わかんない
+        int lvx, lvy, rvx, rvy; // LVはレベルアップの選択肢のXY、RVはリリース
+        bool lvani = false, lvup = true, lvup2 = true; // lvup/lvup2はレベルアップ処理の連続処理防止の為のフラグ
+        string smess = ""; // 出てるユニットにカーソルオーバーで次までのポイントを表示するメッセージ
 
         public stage_00(Game game) : base(game) { }
 
