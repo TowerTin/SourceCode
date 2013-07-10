@@ -36,9 +36,8 @@ namespace Ttin.stage
         private Texture2D icnimg; // 右側のアイコンかマウスオーバーの時のアイコン
         public field.field field { get; private set; }
 
-        // #1 Ttinから移動。
-        // ToDo: 謎変数。解読次第適切に対処。
-        public Texture2D[] noimg; // 敵とプレイヤーユニットのアニメーション
+        // #1 UI数字群
+        public Texture2D[] ui_number_images = new Texture2D[10];
 
         // #1 Ttinから移動。
         // ToDo: 謎変数。解読次第適切に対処。
@@ -73,15 +72,8 @@ namespace Ttin.stage
         {
             base.LoadContent();
 
-            noimg = new Texture2D[10];
-
-            for (int i = 0; i < 10; i++)
-            {
-                using (Stream stream = File.OpenRead("img/no" + i + ".png"))
-                {
-                    noimg[i] = Texture2D.FromStream(GraphicsDevice, stream);
-                }
-            }
+            for (var n = 0; n < 10; ++n)
+                ui_number_images[n] = system.helper.load_from_tmp_file(GraphicsDevice, "img/no" + n + ".png");
         }
 
         public override void Update(GameTime gameTime)
