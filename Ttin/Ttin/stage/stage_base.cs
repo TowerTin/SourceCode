@@ -21,12 +21,17 @@ namespace Ttin.stage
         /// <summary>
         /// プレイヤーユニットUI用の画像リソース名
         /// </summary>
-        protected const string ui_player_unit_resource = "sampgame2.png";
+        protected const string ui_player_unit_resource = "stage/player_unit_ui.png";
 
         /// <summary>
         /// 背景画像リソース名
         /// </summary>
         protected virtual string background_resource { get { throw new NotImplementedException(); } }
+
+        /// <summary>
+        /// ステージシーン開始時のタイトル（背景）表示時間
+        /// </summary>
+        protected virtual TimeSpan show_title_time { get { return TimeSpan.FromSeconds(3); } }
 
         protected readonly List<BoundingBox> ui_player_unit_boundings = new List<BoundingBox>();
 
@@ -55,8 +60,11 @@ namespace Ttin.stage
         // ToDo: 挙動未整理。解読次第適切に対処。
         //protected CreateMap cmap;
 
+        protected TimeSpan scene_time { get; private set; }
+
         public stage_base(Game game) : base(game)
         {
+            scene_time = TimeSpan.Zero;
             generate_ui_player_unit_boundings();
         }
 
@@ -106,9 +114,14 @@ namespace Ttin.stage
 
         public override void Update(GameTime gameTime)
         {
-            var test = test_ui_player_unit();
-            if (test.Item1)
-                ui_player_unit(test.Item2);
+            scene_time += gameTime.ElapsedGameTime;
+
+            if (scene_time < show_title_time)
+                return;
+
+            var t = test_ui_player_unit();
+            if (t.Item1)
+                ui_player_unit(t.Item2);
 
             base.Update(gameTime);
         }
@@ -117,6 +130,7 @@ namespace Ttin.stage
         {
             // 背景
             sprite_batch.Draw(background_image, Vector2.Zero, Color.White);
+
             // プレイヤーユニットUI
             sprite_batch.Draw(ui_player_unit_image, new Vector2(600, 200), Color.White);
 

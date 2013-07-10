@@ -23,7 +23,7 @@ namespace Ttin.stage
         /// 文字列を指定さえすれば基底クラスがよしなに
         /// </summary>
         protected override string background_resource
-        { get { return "sampgame.png"; } }
+        { get { return "stage/00/background.png"; } }
 
         // #1 Ttinから移動。
         // ToDo: 謎変数。解読次第適切に対処。
