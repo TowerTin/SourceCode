@@ -163,12 +163,11 @@ namespace Ttin.stage
         // ToDo: 未解読。解読して適切に対処する。
         void mousePressChk()
         {
-            // #1 ToDo: この処理はユニット制御クラスのUpdateで行うべき
+            // ToDo: player_unit_managerへ処理を移行作業中
             if (player_unit_manager.uniste(input_manager.pointer_position) != "")
             {
                 ste = true;
                 smess = player_unit_manager.uniste(input_manager.pointer_position);
-
             }
             else
                 ste = false;

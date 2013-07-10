@@ -24,12 +24,31 @@ namespace Ttin.unit_manager
         public player_unit ui_active_unit { get; set; }
 
         /// <summary>
-        /// ポインターが上にあるユニット
+        /// ポインターが上にあるUI上のユニット
         /// </summary>
         public player_unit ui_pointer_over_unit { get; set; }
 
-        // #1 これはなに？変数名を見た人が発狂するコードを書いてはいけません！
+        /// <summary>
+        /// ポインターが上にあるフィールド上のユニット
+        /// </summary>
+        public player_unit_base field_pointer_over_unit { get; set; }
+
+        /// <summary>
+        /// ポインターが上にあるユニットのレベルアップ情報
+        /// </summary>
+        public string field_pointer_over_unit_message { get; private set; }
+
+        // #1 どうやらフィールドに配置可能な最大ユニット数のことらしい。
+        // ToDo: ユニット管理はList化し、この定数は削除する。
+        //       225という値は現在のフィールドの配置可能な最大数を予め確保するために設定しただけらしい
         const int BLASTSU = 225;
+
+        /// <summary>
+        /// フィールド上のプレイヤーユニット群
+        /// </summary>
+        public List<player_unit_base> units { get; set; }
+        
+        // #1 これはなに？変数名を見た人が発狂するコードを書いてはいけません！
         public int[] x, y, mapNo, inter, dam, ren, lv, unit;
         sbyte[,] map;
         public bool[] ani;
@@ -52,6 +71,7 @@ namespace Ttin.unit_manager
         {
             ui_active_unit = player_unit.none;
             ui_pointer_over_unit = player_unit.none;
+            units = new List<player_unit_base>();
 
             var ttin = game as Ttin;
 
@@ -126,6 +146,18 @@ namespace Ttin.unit_manager
                 lv[i] = 0;
                 ani[i] = false;
             }
+        }
+
+        public override void Update(GameTime gameTime)
+        {
+            base.Update(gameTime);
+
+            update_field_pointer_over_unit();
+        }
+
+        void update_field_pointer_over_unit()
+        {
+            // ToDo: フィールド上で現在ポインターが乗っているユニットをセット
         }
 
         // #1 一時的な措置として定義
@@ -222,40 +254,29 @@ namespace Ttin.unit_manager
             animNoUpdate();
         }
 
-        // #1 一時的な措置としてunisteとやらのVector2ラッパー
         /// <summary>
-        /// unisteのVector2ラッパー
+        /// マウスカーソルが重なったフィールド上のユニットのレベルアップ情報メッセージを更新
         /// </summary>
-        /// <param name="pointer_position">ポインター座標</param>
-        /// <returns>？ #1 元のunisteを解読する必要あり</returns>
-        public string uniste(Vector2 pointer_position)
-        { return uniste((int)pointer_position.X, (int)pointer_position.Y); }
-
-        //マウスカーソルが重なったユニットの次の強化コストなどを表示する
-        public string uniste(int _x, int _y)
+        public void update_unit_message()
         {
-            int x = _x, y = _y;
-            string steit = "";
-
-            for (int i = 0; i < BLASTSU; i++)
+            if (field_pointer_over_unit == null)
             {
-                if (pos[i].X <= x && x < pos[i].X + 40)
-                {
-                    if (pos[i].Y <= y && y < pos[i].Y + 40)
-                    {
-                        if (lv[i] < 4)
-                        {
-                            steit = "Next->" + unitst[unit[i], lv[i] + 1, 0] + "pt";
-                        }
-                        else
-                        {
-                            steit = "LvMAX!!";
-                        }
-                    }
-                }
+                field_pointer_over_unit_message = string.Empty;
+                return;
             }
-            return steit;
+
+            // ユニットの次レベルのインスタンスを生成
+            var t = field_pointer_over_unit.GetType();
+            var u_next = (player_unit_base)Activator.CreateInstance(t);
+            ++u_next.level;
+
+            // u に基づいてコストを表示
+            field_pointer_over_unit_message = (field_pointer_over_unit.level < unit_manager.helper.max_level)
+                ? "Next->" + u_next.cost + " [G]"
+                : "LvMAX!!"
+                ;
         }
+
         public int renReng(int i)
         {
             //ren[i] = rengg[unitst[unit[i], lv[i], 2]];

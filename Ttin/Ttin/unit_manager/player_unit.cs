@@ -29,6 +29,38 @@ namespace Ttin.unit_manager
       , end  = last + 1
     }
 
+    public class helper
+    {
+        /// <summary>
+        /// player_unit から対応するユニットのインスタンスを得るヘルパー関数
+        /// </summary>
+        /// <param name="p">インスタンスを得たいplayer_unit</param>
+        /// <param name="level">インスタンを得たいプレイヤーユニットのレベル</param>
+        /// <returns>プレイヤーユニットのインスタンス</returns>
+        static public player_unit_base instance(player_unit p, int level = 1)
+        {
+            player_unit_base u;
+            switch (p)
+            {
+                case player_unit.Lucy: u = new Lucy(); break;
+                case player_unit.Paley: u = new Paley(); break;
+                case player_unit.Tiger: u = new Tiger(); break;
+                case player_unit.Izumi: u = new Izumi(); break;
+                case player_unit.Oz: u = new Oz(); break;
+                case player_unit.Hikoyoshi: u = new Hikoyoshi(); break;
+                case player_unit.Carario: u = new Carario(); break;
+                default: throw new InvalidProgramException("不正な player_unit");
+            }
+            u.level = level;
+            return u;
+        }
+
+        /// <summary>
+        /// プレイヤーユニットが到達可能な最大レベル
+        /// </summary>
+        public const int max_level = 5;
+    }
+
     public abstract class player_unit_base : DrawableGameComponent
     {
         public virtual string name { get; }
