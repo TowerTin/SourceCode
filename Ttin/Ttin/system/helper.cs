@@ -23,6 +23,13 @@ namespace Ttin.system
         { return a.Intersects(b); }
         public static bool hitcheck(BoundingSphere a, BoundingBox b)
         { return a.Intersects(b); }
+
+        public static Texture2D load_from_file(GraphicsDevice graphic_device, string filename)
+        {
+            var s = File.OpenRead(filename);
+            var t = Texture2D.FromStream(graphic_device, s);
+            return t;
+        }
     }
 
 }
