@@ -24,12 +24,39 @@ namespace Ttin.system
         public static bool hitcheck(BoundingSphere a, BoundingBox b)
         { return a.Intersects(b); }
 
-        public static Texture2D load_from_file(GraphicsDevice graphic_device, string filename)
+        /// <summary>
+        /// Texture2Dをファイルからロード
+        /// </summary>
+        /// <param name="graphic_device">GraphicsDevice</param>
+        /// <param name="filename">ファイルパス</param>
+        /// <returns></returns>
+        public static Texture2D load_from_file(GraphicsDevice graphics_device, string filename)
         {
             var s = File.OpenRead(filename);
-            var t = Texture2D.FromStream(graphic_device, s);
+            var t = Texture2D.FromStream(graphics_device, s);
             return t;
         }
+
+#if DEBUG
+
+        /// <summary>
+        /// Texture2Dを一時ファイル置き場からロード
+        /// ※開発用
+        /// </summary>
+        /// <param name="graphics_device">GraphicsDevice</param>
+        /// <param name="tmp_filename">一時ファイル置き場内でのファイルパス</param>
+        /// <returns></returns>
+        public static Texture2D load_from_tmp_file(GraphicsDevice graphics_device, string tmp_filename)
+        { return load_from_file(graphics_device, tmp_path + "/" + tmp_filename); }
+
+        /// <summary>
+        /// 実行ファイルから見た一時ファイル置き場のパス
+        /// ※開発用
+        /// </summary>
+        const string tmp_path = "../../tmp";
+
+#endif
+
     }
 
 }

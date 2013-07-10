@@ -36,7 +36,7 @@ namespace Ttin.stage
         protected readonly List<BoundingBox> ui_player_unit_boundings = new List<BoundingBox>();
 
         protected Texture2D background_image;
-        protected Texture2D ui_player_unit_image;
+        protected Texture2D ui_player_unit_background_image;
 
         // #1 stage_00から分離。マウスクリックアクションの座標データ。
         // ToDo: よりよい実装にリファクタリングする
@@ -107,7 +107,7 @@ namespace Ttin.stage
         protected override void LoadContent()
         {
             background_image = content.Load<Texture2D>(background_resource);
-            ui_player_unit_image = content.Load<Texture2D>(ui_player_unit_resource);
+            ui_player_unit_background_image = content.Load<Texture2D>(ui_player_unit_resource);
 
             base.LoadContent();
         }
@@ -138,7 +138,7 @@ namespace Ttin.stage
             sprite_batch.Draw(background_image, Vector2.Zero, Color.White);
 
             // プレイヤーユニットUI
-            sprite_batch.Draw(ui_player_unit_image, new Vector2(600, 200), Color.White);
+            sprite_batch.Draw(ui_player_unit_background_image, new Vector2(600, 200), Color.White);
 
             base.Draw(gameTime);
         }

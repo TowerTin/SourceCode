@@ -34,9 +34,23 @@ namespace Ttin.stage
         // #1 Ttinから移動。
         // ToDo: 謎変数。解読次第適切に対処。
         private Texture2D icnimg; // 右側のアイコンかマウスオーバーの時のアイコン
-        public Texture2D uni1, uni2, uni3, uni4, uni5, uni6, uni7 // // プレイヤーユニット（右側）の絵
-                       , me3, me32, me4, me5 // マウスオーバー時のチップス
-                       ;
+
+        // UIのプレイヤーユニットの絵
+        protected Texture2D[] ui_player_unit_images = new Texture2D[(int)unit_manager.player_unit.last];
+
+        // #1 UIばくはつの絵
+        protected Texture2D ui_bomb_image;
+
+        // #1 UIレベルアップの絵
+        protected Texture2D ui_level_up_image;
+        // #1 UIレベルアップの絵、その２
+        protected Texture2D ui_level_up_2_image;
+
+        // #1 UI売り出しの絵
+        protected Texture2D ui_sale_image;
+
+        // #1 UIプレイヤーユニットのチップスの絵
+        protected Texture2D ui_unit_tips_image;
 
         public field.field field { get; private set; }
 
@@ -87,29 +101,18 @@ namespace Ttin.stage
                 }
             }
 
-            Stream s1 = File.OpenRead("img/luM.png");
-            uni1 = Texture2D.FromStream(GraphicsDevice, s1);
-            Stream s11 = File.OpenRead("img/luM.png");
-            uni3 = Texture2D.FromStream(GraphicsDevice, s11);
-            Stream s12 = File.OpenRead("img/luM.png");
-            uni4 = Texture2D.FromStream(GraphicsDevice, s12);
-            Stream s13 = File.OpenRead("img/luM.png");
-            uni5 = Texture2D.FromStream(GraphicsDevice, s13);
-            Stream s14 = File.OpenRead("img/luM.png");
-            uni6 = Texture2D.FromStream(GraphicsDevice, s14);
-            Stream s15 = File.OpenRead("img/luM.png");
-            uni7 = Texture2D.FromStream(GraphicsDevice, s15);
+            ui_player_unit_images.Add
+                ( unit_manager.player_unit.Lucy
+                , system.helper.load_from_tmp_file(GraphicsDevice, "img/LuM.png")
+                );
 
-            Stream s2 = File.OpenRead("img/boM.png");
-            uni2 = Texture2D.FromStream(GraphicsDevice, s2);
-            Stream s4 = File.OpenRead("img/lvup.png");
-            me3 = Texture2D.FromStream(GraphicsDevice, s4);
-            Stream s42 = File.OpenRead("img/sale.png");
-            me32 = Texture2D.FromStream(GraphicsDevice, s42);
-            Stream s5 = File.OpenRead("img/lvup2.png");
-            me4 = Texture2D.FromStream(GraphicsDevice, s5);
-            Stream s6 = File.OpenRead("img/unitmen.png");
-            me5 = Texture2D.FromStream(GraphicsDevice, s6);
+            // ToDo: ui_player_unit_imagesにLucy以外の画像もロードする
+
+            ui_bomb_image = system.helper.load_from_tmp_file(GraphicsDevice, "img/boM.png");
+            ui_level_up_image = system.helper.load_from_tmp_file(GraphicsDevice, "img/lvup.png");
+            ui_level_up_2_image = system.helper.load_from_tmp_file(GraphicsDevice, "img/lvup2.png");
+            ui_sale_image = system.helper.load_from_tmp_file(GraphicsDevice, "img/sale.png");
+            ui_unit_tips_image = system.helper.load_from_tmp_file(GraphicsDevice, "img/unitmen.png");
 
         }
 

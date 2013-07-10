@@ -25,6 +25,8 @@ namespace Ttin.unit_manager
       , Carario
 
       , none = int.MinValue
+      , last = Carario
+      , end  = last + 1
     }
 
     public abstract class player_unit_base : DrawableGameComponent
