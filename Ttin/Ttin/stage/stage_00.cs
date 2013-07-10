@@ -46,11 +46,6 @@ namespace Ttin.stage
 
         // #1 Ttinから移動。
         // ToDo: 謎変数。解読次第適切に対処。
-        public bool flg = false; // ゲーム開始前か後か
-        public bool flg2 = true; // わかんないらしい
-
-        // #1 Ttinから移動。
-        // ToDo: 謎変数。解読次第適切に対処。
         int unitNo = -1;
         int gold = 1000;
         int[] uniGo = { 0, 100, 120 };
@@ -137,57 +132,48 @@ namespace Ttin.stage
         {
             // #1 Ttinから移動。
             // ToDo: 未解読。解読して適切に対処する。
-            /*
-            if (flg)
+            cmap.paintmap(maptable);
+            sprite.Draw(gazo2, pos2, Color.White);
+            int w, keta = 10000, next = gold;
+            for (int i = 0; i < 5; i++)
             {
-                cmap.paintmap(maptable);
-                sprite.Draw(gazo2, pos2, Color.White);
-                int w, keta = 10000, next = gold;
-                for (int i = 0; i < 5; i++)
+                try
                 {
-                    try
-                    {
-                        posNo.X = ke[i];
-                        w = next / keta;
+                    posNo.X = ke[i];
+                    w = next / keta;
 
-                        sprite.Draw(noimg[w], posNo, Color.White);
-                        next -= w * keta;
-                        keta /= 10;
-                        //posG.X += 40;
-                    }
-                    catch
-                    {
-                        Debug.WriteLine("金のエラーあとで直す");
-                    }
+                    sprite.Draw(noimg[w], posNo, Color.White);
+                    next -= w * keta;
+                    keta /= 10;
+                    //posG.X += 40;
                 }
-                blast.paintBlast();
-                gold += cpu.enHP() + cpu.getgold();
-                if (gold >= 99999)
+                catch
                 {
-                    gold = 99999;
+                    Debug.WriteLine("金のエラーあとで直す");
                 }
-                if (cpu.paintCPU(blast, eneLv))
-                {
-                    Stream s3 = File.OpenRead("img/gover.png");
-                    Tgazo = Texture2D.FromStream(GraphicsDevice, s3);
-                    flg = false;
-                }
-                sprite.Draw(uni1, posUni1, Color.White);
-                sprite.Draw(uni2, posUni2, Color.White);
-                sprite.Draw(uni3, posUni3, Color.White);
-                sprite.Draw(uni4, posUni4, Color.White);
-                sprite.Draw(uni5, posUni5, Color.White);
-                sprite.Draw(uni6, posUni6, Color.White);
-                sprite.Draw(uni7, posUni7, Color.White);
-
-                sprite.Draw(me3, posG4, Color.White);
-                sprite.Draw(me32, posG42, Color.White);
             }
-            else
+            blast.paintBlast();
+            gold += cpu.enHP() + cpu.getgold();
+            if (gold >= 99999)
             {
-                sprite.Draw(Tgazo, pos1, Color.White);
-
+                gold = 99999;
             }
+            if (cpu.paintCPU(blast, eneLv))
+            {
+                Stream s3 = File.OpenRead("img/gover.png");
+                Tgazo = Texture2D.FromStream(GraphicsDevice, s3);
+            }
+            sprite.Draw(uni1, posUni1, Color.White);
+            sprite.Draw(uni2, posUni2, Color.White);
+            sprite.Draw(uni3, posUni3, Color.White);
+            sprite.Draw(uni4, posUni4, Color.White);
+            sprite.Draw(uni5, posUni5, Color.White);
+            sprite.Draw(uni6, posUni6, Color.White);
+            sprite.Draw(uni7, posUni7, Color.White);
+
+            sprite.Draw(me3, posG4, Color.White);
+            sprite.Draw(me32, posG42, Color.White);
+
             if (lvani)
             {
                 if (lvc <= 10)
@@ -212,7 +198,6 @@ namespace Ttin.stage
             {
                 sprite.Draw(icnimg, posUM3, Color.White);
             }
-            */
 
             base.Draw(gameTime);
         }
@@ -318,13 +303,6 @@ namespace Ttin.stage
                     {
                         player_unit_manager.unitexit(lvx, lvy);
                     }
-
-            if (input_manager.button1_pressed)
-                if (flg2)
-                {
-                    flg = true;
-                    flg2 = false;
-                }
 
             if (input_manager.button1_pressed)
                 if (input_manager.pointer_position.X < 600 && input_manager.pointer_position.Y < 600)

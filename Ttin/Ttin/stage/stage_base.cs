@@ -116,8 +116,14 @@ namespace Ttin.stage
         {
             scene_time += gameTime.ElapsedGameTime;
 
+            // タイトル画面の表示状態
             if (scene_time < show_title_time)
+            {
+                // タイトル画面スキップ
+                if (input_manager.button1_pressed)
+                    scene_time = show_title_time;
                 return;
+            }
 
             var t = test_ui_player_unit();
             if (t.Item1)
