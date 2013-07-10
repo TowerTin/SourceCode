@@ -101,10 +101,8 @@ namespace Ttin.stage
                 }
             }
 
-            ui_player_unit_images.Add
-                ( unit_manager.player_unit.Lucy
-                , system.helper.load_from_tmp_file(GraphicsDevice, "img/LuM.png")
-                );
+            ui_player_unit_images[(int)unit_manager.player_unit.Lucy]
+                = system.helper.load_from_tmp_file(GraphicsDevice, "img/LuM.png");
 
             // ToDo: ui_player_unit_imagesにLucy以外の画像もロードする
 
