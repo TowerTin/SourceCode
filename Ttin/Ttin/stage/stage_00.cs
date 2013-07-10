@@ -92,8 +92,8 @@ namespace Ttin.stage
 
             // #1 Ttinから移動。
             // ToDo: 未解読。解読して適切に対処する。
-            cmap.paintmap(maptable);
-            sprite.Draw(gazo2, pos2, Color.White);
+            //cmap.paintmap(maptable);
+            
             int w, keta = 10000, next = gold;
             for (int i = 0; i < 5; i++)
             {
