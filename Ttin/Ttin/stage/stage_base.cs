@@ -38,6 +38,23 @@ namespace Ttin.stage
         protected Texture2D background_image;
         protected Texture2D ui_player_unit_background_image;
 
+        // UIのプレイヤーユニットの絵
+        protected Texture2D[] ui_player_unit_images = new Texture2D[(int)unit_manager.player_unit.last];
+
+        // #1 UIばくはつの絵
+        protected Texture2D ui_bomb_image;
+
+        // #1 UIレベルアップの絵
+        protected Texture2D ui_level_up_image;
+        // #1 UIレベルアップの絵、その２
+        protected Texture2D ui_level_up_2_image;
+
+        // #1 UI売り出しの絵
+        protected Texture2D ui_sale_image;
+
+        // #1 UIプレイヤーユニットのチップスの絵
+        protected Texture2D ui_unit_tips_image;
+
         // #1 stage_00から分離。マウスクリックアクションの座標データ。
         // ToDo: よりよい実装にリファクタリングする
         protected readonly Vector2
@@ -106,10 +123,22 @@ namespace Ttin.stage
 
         protected override void LoadContent()
         {
+            base.LoadContent();
+
             background_image = content.Load<Texture2D>(background_resource);
             ui_player_unit_background_image = content.Load<Texture2D>(ui_player_unit_resource);
 
-            base.LoadContent();
+            ui_player_unit_images[(int)unit_manager.player_unit.Lucy]
+                = system.helper.load_from_tmp_file(GraphicsDevice, "img/LuM.png");
+
+            // ToDo: ui_player_unit_imagesにLucy以外の画像もロードする
+
+            ui_bomb_image = system.helper.load_from_tmp_file(GraphicsDevice, "img/boM.png");
+            ui_level_up_image = system.helper.load_from_tmp_file(GraphicsDevice, "img/lvup.png");
+            ui_level_up_2_image = system.helper.load_from_tmp_file(GraphicsDevice, "img/lvup2.png");
+            ui_sale_image = system.helper.load_from_tmp_file(GraphicsDevice, "img/sale.png");
+            ui_unit_tips_image = system.helper.load_from_tmp_file(GraphicsDevice, "img/unitmen.png");
+
         }
 
         public override void Update(GameTime gameTime)

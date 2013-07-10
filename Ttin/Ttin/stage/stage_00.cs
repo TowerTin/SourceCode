@@ -34,24 +34,6 @@ namespace Ttin.stage
         // #1 Ttinから移動。
         // ToDo: 謎変数。解読次第適切に対処。
         private Texture2D icnimg; // 右側のアイコンかマウスオーバーの時のアイコン
-
-        // UIのプレイヤーユニットの絵
-        protected Texture2D[] ui_player_unit_images = new Texture2D[(int)unit_manager.player_unit.last];
-
-        // #1 UIばくはつの絵
-        protected Texture2D ui_bomb_image;
-
-        // #1 UIレベルアップの絵
-        protected Texture2D ui_level_up_image;
-        // #1 UIレベルアップの絵、その２
-        protected Texture2D ui_level_up_2_image;
-
-        // #1 UI売り出しの絵
-        protected Texture2D ui_sale_image;
-
-        // #1 UIプレイヤーユニットのチップスの絵
-        protected Texture2D ui_unit_tips_image;
-
         public field.field field { get; private set; }
 
         // #1 Ttinから移動。
@@ -100,18 +82,6 @@ namespace Ttin.stage
                     noimg[i] = Texture2D.FromStream(GraphicsDevice, stream);
                 }
             }
-
-            ui_player_unit_images[(int)unit_manager.player_unit.Lucy]
-                = system.helper.load_from_tmp_file(GraphicsDevice, "img/LuM.png");
-
-            // ToDo: ui_player_unit_imagesにLucy以外の画像もロードする
-
-            ui_bomb_image = system.helper.load_from_tmp_file(GraphicsDevice, "img/boM.png");
-            ui_level_up_image = system.helper.load_from_tmp_file(GraphicsDevice, "img/lvup.png");
-            ui_level_up_2_image = system.helper.load_from_tmp_file(GraphicsDevice, "img/lvup2.png");
-            ui_sale_image = system.helper.load_from_tmp_file(GraphicsDevice, "img/sale.png");
-            ui_unit_tips_image = system.helper.load_from_tmp_file(GraphicsDevice, "img/unitmen.png");
-
         }
 
         public override void Update(GameTime gameTime)
