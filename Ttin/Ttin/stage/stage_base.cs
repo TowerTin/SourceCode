@@ -55,6 +55,9 @@ namespace Ttin.stage
         // #1 UIプレイヤーユニットのチップスの絵
         protected Texture2D ui_unit_tips_image;
 
+        // #1 UI数字群
+        public Texture2D[] ui_number_images = new Texture2D[10];
+
         // #1 stage_00から分離。マウスクリックアクションの座標データ。
         // ToDo: よりよい実装にリファクタリングする
         protected readonly Vector2
@@ -139,6 +142,8 @@ namespace Ttin.stage
             ui_sale_image = system.helper.load_from_tmp_file(GraphicsDevice, "img/sale.png");
             ui_unit_tips_image = system.helper.load_from_tmp_file(GraphicsDevice, "img/unitmen.png");
 
+            for (var n = 0; n < 10; ++n)
+                ui_number_images[n] = system.helper.load_from_tmp_file(GraphicsDevice, "img/no" + n + ".png");
         }
 
         public override void Update(GameTime gameTime)
