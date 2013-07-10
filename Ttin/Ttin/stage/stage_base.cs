@@ -41,6 +41,9 @@ namespace Ttin.stage
         // UIのプレイヤーユニットの絵
         protected Texture2D[] ui_player_unit_images = new Texture2D[(int)unit_manager.player_unit.last];
 
+        // UIのプレイヤーユニットのチップスの絵
+        protected Texture2D[] ui_player_unit_tips_images = new Texture2D[(int)unit_manager.player_unit.last];
+
         // #1 UIばくはつの絵
         protected Texture2D ui_bomb_image;
 
@@ -133,8 +136,33 @@ namespace Ttin.stage
 
             ui_player_unit_images[(int)unit_manager.player_unit.Lucy]
                 = system.helper.load_from_tmp_file(GraphicsDevice, "img/LuM.png");
+            ui_player_unit_images[(int)unit_manager.player_unit.Lucy]
+                = system.helper.load_from_tmp_file(GraphicsDevice, "img/PaM.png");
+            ui_player_unit_images[(int)unit_manager.player_unit.Lucy]
+                = system.helper.load_from_tmp_file(GraphicsDevice, "img/TiM.png");
+            ui_player_unit_images[(int)unit_manager.player_unit.Lucy]
+                = system.helper.load_from_tmp_file(GraphicsDevice, "img/IzM.png");
+            ui_player_unit_images[(int)unit_manager.player_unit.Lucy]
+                = system.helper.load_from_tmp_file(GraphicsDevice, "img/OzM.png");
+            ui_player_unit_images[(int)unit_manager.player_unit.Lucy]
+                = system.helper.load_from_tmp_file(GraphicsDevice, "img/HiM.png");
+            ui_player_unit_images[(int)unit_manager.player_unit.Lucy]
+                = system.helper.load_from_tmp_file(GraphicsDevice, "img/CaM.png");
 
-            // ToDo: ui_player_unit_imagesにLucy以外の画像もロードする
+            ui_player_unit_tips_images[(int)unit_manager.player_unit.Lucy]
+                = system.helper.load_from_tmp_file(GraphicsDevice, "img/Luicn.png");
+            ui_player_unit_tips_images[(int)unit_manager.player_unit.Lucy]
+                = system.helper.load_from_tmp_file(GraphicsDevice, "img/Paicn.png");
+            ui_player_unit_tips_images[(int)unit_manager.player_unit.Lucy]
+                = system.helper.load_from_tmp_file(GraphicsDevice, "img/Tiicn.png");
+            ui_player_unit_tips_images[(int)unit_manager.player_unit.Lucy]
+                = system.helper.load_from_tmp_file(GraphicsDevice, "img/Izicn.png");
+            ui_player_unit_tips_images[(int)unit_manager.player_unit.Lucy]
+                = system.helper.load_from_tmp_file(GraphicsDevice, "img/Ozicn.png");
+            ui_player_unit_tips_images[(int)unit_manager.player_unit.Lucy]
+                = system.helper.load_from_tmp_file(GraphicsDevice, "img/Hiicn.png");
+            ui_player_unit_tips_images[(int)unit_manager.player_unit.Lucy]
+                = system.helper.load_from_tmp_file(GraphicsDevice, "img/Caicn.png");
 
             ui_bomb_image = system.helper.load_from_tmp_file(GraphicsDevice, "img/boM.png");
             ui_level_up_image = system.helper.load_from_tmp_file(GraphicsDevice, "img/lvup.png");
@@ -148,6 +176,8 @@ namespace Ttin.stage
 
         public override void Update(GameTime gameTime)
         {
+            base.Update(gameTime);
+
             scene_time += gameTime.ElapsedGameTime;
 
             // タイトル画面の表示状態
@@ -159,46 +189,54 @@ namespace Ttin.stage
                 return;
             }
 
-            var t = test_ui_player_unit();
-            if (t.Item1)
-                ui_player_unit(t.Item2);
-
-            base.Update(gameTime);
+            test_ui_player_unit();
         }
 
         public override void Draw(GameTime gameTime)
         {
+            base.Draw(gameTime);
+
             // 背景
             sprite_batch.Draw(background_image, Vector2.Zero, Color.White);
 
             // プレイヤーユニットUI
             sprite_batch.Draw(ui_player_unit_background_image, new Vector2(600, 200), Color.White);
 
-            base.Draw(gameTime);
+            // プレイヤーユニットチップス
+            if (player_unit_manager.ui_pointer_over_unit != unit_manager.player_unit.none)
+                sprite_batch.Draw
+                    ( ui_player_unit_tips_images[(int)player_unit_manager.ui_pointer_over_unit]
+                    , input_manager.pointer_position + new Vector2(100,100)
+                    , Color.White
+                    );
         }
 
         /// <summary>
-        /// プレイヤーユニットのUIが発動すべきかテストする
+        /// プレイヤーユニットのUIが発動すべきかテストし、
+        /// player_unit_manager.ui_pointer_over_unit
+        /// player_unit_manager.ui_active_unit
+        /// を両方更新する
         /// </summary>
-        /// <returns>Item1: 発動すべきか否か、Item2: 発動すべきインデックス</returns>
-        Tuple<bool, int> test_ui_player_unit()
+        void test_ui_player_unit()
         {
-            if (input_manager.button1_pressed)
-            {
-                var p = new Vector3(input_manager.pointer_position, 0);
-                for (var n = 0; n < ui_player_unit_boundings.Count; ++n)
-                    if (ui_player_unit_boundings[n].Contains(p) == ContainmentType.Contains)
-                        return new Tuple<bool, int>(true, n);
-            }
-            return new Tuple<bool, int>(false, int.MinValue);
-        }
+            var p = new Vector3(input_manager.pointer_position, 0);
+            for (var n = 0; n < ui_player_unit_boundings.Count; ++n)
+                if (ui_player_unit_boundings[n].Contains(p) == ContainmentType.Contains)
+                {
+                    // プレイヤーユニット上にアイコンがある
+                    player_unit_manager.ui_pointer_over_unit = (unit_manager.player_unit)n;
 
-        /// <summary>
-        /// UIによるプレイヤーユニット選択
-        /// </summary>
-        /// <param name="index">プレイヤーユニットID</param>
-        void ui_player_unit(int index)
-        { player_unit_manager.ui_active_unit = (unit_manager.player_unit)index; }
+                    // クリックされている
+                    if (input_manager.button1_pressed)
+                        player_unit_manager.ui_active_unit = (unit_manager.player_unit)n;
+                }
+
+            // プレイヤーユニット上にポインターがない
+            player_unit_manager.ui_pointer_over_unit
+                = player_unit_manager.ui_active_unit
+                = unit_manager.player_unit.none
+                ;
+        }
 
     }
 }

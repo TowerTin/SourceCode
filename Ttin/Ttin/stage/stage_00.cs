@@ -33,7 +33,7 @@ namespace Ttin.stage
 
         // #1 Ttinから移動。
         // ToDo: 謎変数。解読次第適切に対処。
-        private Texture2D icnimg; // 右側のアイコンかマウスオーバーの時のアイコン
+        Texture2D ui_player_unit_tips; // 右側のアイコンかマウスオーバーの時のアイコン
         public field.field field { get; private set; }
 
         // #1 Ttinから移動。
@@ -68,7 +68,6 @@ namespace Ttin.stage
         protected override void LoadContent()
         {
             base.LoadContent();
-
         }
 
         public override void Update(GameTime gameTime)
@@ -174,12 +173,6 @@ namespace Ttin.stage
             else
                 ste = false;
 
-            // #1 ToDo: icnchが何なのかまるで読み取れないので解読次第対処する
-            if (icnch(input_manager.pointer_position))
-                icn = true;
-            else
-                icn = false;
-
             if (input_manager.button1_pressed)
                 if (unitNo >= 0)
                     if (gold >= player_unit_manager.lv0(unitNo))
@@ -280,99 +273,5 @@ namespace Ttin.stage
                     rvy = (int)input_manager.pointer_position.Y;
                 }
         }
-
-        // #1 一時的な措置
-        /// <summary>
-        /// icnchのVector2ラッパー
-        /// </summary>
-        /// <param name="pointer_position">ポインター座標</param>
-        /// <returns>？ #1 要・元解読</returns>
-        public bool icnch(Vector2 pointer_position)
-        { return icnch((int)pointer_position.X, (int)pointer_position.Y); }
-
-        // #1 Ttinから移動。
-        // ToDo: 未解読。解読して適切に対処する。
-        public bool icnch(int _x, int _y)
-        {
-            if (_x >= posUni1.X && _x < posUni1.X + 100)
-            {
-                if (_y >= posUni1.Y && _y < posUni1.Y + 100)
-                {
-                    Stream icn1 = File.OpenRead("img/Luicn.png");
-                    icnimg = Texture2D.FromStream(GraphicsDevice, icn1);
-                    posUM3.X = _x;
-                    posUM3.Y = _y;
-                    return true;
-                }
-            }
-            if (_x >= posUni2.X && _x < posUni2.X + 100)
-            {
-                if (_y >= posUni2.Y && _y < posUni2.Y + 100)
-                {
-                    Stream icn1 = File.OpenRead("img/Paicn.png");
-                    icnimg = Texture2D.FromStream(GraphicsDevice, icn1);
-                    posUM3.X = _x - 100;
-                    posUM3.Y = _y;
-                    return true;
-                }
-            }
-            if (_x >= posUni3.X && _x < posUni3.X + 100)
-            {
-                if (_y >= posUni3.Y && _y < posUni3.Y + 100)
-                {
-                    Stream icn1 = File.OpenRead("img/Tiicn.png");
-                    icnimg = Texture2D.FromStream(GraphicsDevice, icn1);
-                    posUM3.X = _x;
-                    posUM3.Y = _y;
-                    return true;
-                }
-            }
-            if (_x >= posUni4.X && _x < posUni4.X + 100)
-            {
-                if (_y >= posUni4.Y && _y < posUni4.Y + 100)
-                {
-                    Stream icn1 = File.OpenRead("img/Izicn.png");
-                    icnimg = Texture2D.FromStream(GraphicsDevice, icn1);
-                    posUM3.X = _x - 100;
-                    posUM3.Y = _y;
-                    return true;
-                }
-            }
-            if (_x >= posUni5.X && _x < posUni5.X + 100)
-            {
-                if (_y >= posUni5.Y && _y < posUni5.Y + 100)
-                {
-                    Stream icn1 = File.OpenRead("img/Ozicn.png");
-                    icnimg = Texture2D.FromStream(GraphicsDevice, icn1);
-                    posUM3.X = _x;
-                    posUM3.Y = _y - 100;
-                    return true;
-                }
-            }
-            if (_x >= posUni6.X && _x < posUni6.X + 100)
-            {
-                if (_y >= posUni6.Y && _y < posUni6.Y + 100)
-                {
-                    Stream icn1 = File.OpenRead("img/Hiicn.png");
-                    icnimg = Texture2D.FromStream(GraphicsDevice, icn1);
-                    posUM3.X = _x - 100;
-                    posUM3.Y = _y - 100;
-                    return true;
-                }
-            }
-            if (_x >= posUni7.X && _x < posUni7.X + 100)
-            {
-                if (_y >= posUni7.Y && _y < posUni7.Y + 100)
-                {
-                    Stream icn1 = File.OpenRead("img/Caicn.png");
-                    icnimg = Texture2D.FromStream(GraphicsDevice, icn1);
-                    posUM3.X = _x;
-                    posUM3.Y = _y - 100;
-                    return true;
-                }
-            }
-            return false;
-        }
-
     }
 }

@@ -23,6 +23,11 @@ namespace Ttin.unit_manager
         /// </summary>
         public player_unit ui_active_unit { get; set; }
 
+        /// <summary>
+        /// ポインターが上にあるユニット
+        /// </summary>
+        public player_unit ui_pointer_over_unit { get; set; }
+
         // #1 これはなに？変数名を見た人が発狂するコードを書いてはいけません！
         const int BLASTSU = 225;
         public int[] x, y, mapNo, inter, dam, ren, lv, unit;
@@ -46,6 +51,7 @@ namespace Ttin.unit_manager
             : base(game)
         {
             ui_active_unit = player_unit.none;
+            ui_pointer_over_unit = player_unit.none;
 
             var ttin = game as Ttin;
 
