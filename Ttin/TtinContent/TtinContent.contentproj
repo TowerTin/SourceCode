@@ -42,29 +42,15 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ch01.png">
-      <Name>ch01</Name>
+    <Compile Include="stage\00\background.png">
+      <Name>stage/00/background</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ch04.png">
-      <Name>ch04</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="sampgame.png">
-      <Name>sampgame</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="sampgame2.png">
-      <Name>sampgame2</Name>
+    <Compile Include="stage\player_unit_ui.png">
+      <Name>stage/player_unit_ui</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
