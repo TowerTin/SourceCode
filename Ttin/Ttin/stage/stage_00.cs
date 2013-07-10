@@ -115,6 +115,8 @@ namespace Ttin.stage
 
         public override void Update(GameTime gameTime)
         {
+            base.Update(gameTime);
+
             if (input_manager.button1_pressed)
                 unitNo = 1;
 
@@ -124,12 +126,12 @@ namespace Ttin.stage
             // #1 Ttinから移動。
             // ToDo: 何をしているか未解読な関数。解読して適切に対処する。
             mousePressChk();
-
-            base.Update(gameTime);
         }
 
         public override void Draw(GameTime gameTime)
         {
+            base.Draw(gameTime);
+
             // #1 Ttinから移動。
             // ToDo: 未解読。解読して適切に対処する。
             cmap.paintmap(maptable);
@@ -198,8 +200,6 @@ namespace Ttin.stage
             {
                 sprite.Draw(icnimg, posUM3, Color.White);
             }
-
-            base.Draw(gameTime);
         }
 
         // #1 Ttinから移動。
