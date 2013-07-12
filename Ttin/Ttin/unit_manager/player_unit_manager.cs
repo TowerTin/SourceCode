@@ -49,11 +49,6 @@ namespace Ttin.unit_manager
         public List<player_unit_base> units { get; set; }
         
         // #1 これはなに？変数名を見た人が発狂するコードを書いてはいけません！
-        // memo: どうやらこれはオブジェクト化されていないプレイヤーユニットのデータのようだ…
-        public int[] x, y, mapNo, inter, dam, ren, lv, unit;
-        sbyte[,] map;
-        public bool[] ani;
-        Vector2[] pos;
         int[,] unisyu;
         int[] dame = { 0, 2, 10 };
         int[] renge = { 0, 40, 80 };
@@ -97,17 +92,6 @@ namespace Ttin.unit_manager
 
             sprite = _sprite;
 
-
-            pos = new Vector2[BLASTSU];
-            x = new int[BLASTSU];
-            y = new int[BLASTSU];
-            mapNo = new int[BLASTSU];
-            inter = new int[BLASTSU];
-            ani = new bool[BLASTSU];
-            dam = new int[BLASTSU];
-            ren = new int[BLASTSU];
-            lv = new int[BLASTSU];
-            unit = new int[BLASTSU];
             //map = _map;
 
             //配置したユニットの種類を記憶
@@ -152,98 +136,15 @@ namespace Ttin.unit_manager
             // ToDo: フィールド上で現在ポインターが乗っているユニットをセット
         }
 
-        // #1 一時的な措置として定義
         /// <summary>
-        /// setBlastをVector2形式のポインター座標から呼ぶラッパー
+        /// ユニットをセット可能ならばセットする
         /// </summary>
         /// <param name="pointer_position">ポインター座標</param>
-        /// <param name="_uni">？ #1 元のsetBlast関数から後ほど解読する必要あり</param>
-        /// <returns>？ #1 元のsetBlast関数から後ほど解読する必要あり</returns>
-        public bool setBlast(Vector2 pointer_position, int _uni)
-        { return setBlast((int)pointer_position.X, (int)pointer_position.Y, _uni); }
-
-        //自群ユニットの配置
-        public bool setBlast(int _x, int _y, int _uni)
+        /// <param name="unit">配置するユニット</param>
+        /// <returns>セットできた場合true、それ以外の場合false</returns>
+        public bool set_unit(Vector2 pointer_position, unit_manager.player_unit unit)
         {
-            uni = _uni;
-            if (uni == -1)
-            {
-                return false;
-            }
-            no = _uni * 5;
-
-            if (_x < 600 && _y < 600 && _x > 0 && _y > 0)
-            {
-
-                for (int i = 0; i < BLASTSU; i++)
-                {
-
-                    if (mapNo[i] == -1)
-                    {
-                        unit[i] = uni;
-                        if (unisyu[_x / 40, _y / 40] == -1)
-                        {
-                            unisyu[_x / 40, _y / 40] = no;
-                        }
-                        if (map[_y / 40, _x / 40] == 99)
-                        {
-                            {
-                                dam[i] = unitst[unit[i], lv[i], 1];
-                                ren[i] = rengg[unitst[unit[i], lv[i], 2]];
-                                x[i] = (_x / 40) * 40;
-                                y[i] = (_y / 40) * 40;
-                                mapNo[i] = 0;
-                                return true;
-                            }
-
-                        }
-                    }
-                }
-            }
-            return false;
-        }
-
-
-        //アニメーションの更新、攻撃のエフェクト
-        public void animNoUpdate()
-        {
-            cnt++;
-            if (cnt < 5) return;
-            cnt = 0;
-            for (int i = 0; i < BLASTSU; i++)
-            {
-                if (ani[i])
-                {
-                    if (mapNo[i] != -1)
-                    {
-                        mapNo[i]++;
-                        if (mapNo[i] >= 4 + unisyu[x[i] / 40, y[i] / 40])
-                        {
-                            ani[i] = false;
-                            mapNo[i] = 0;
-                        }
-                    }
-                }
-            }
-        }
-
-        //自群ユニットの画像表示
-        public void paintBlast()
-        {
-
-            for (int i = 0; i < BLASTSU; i++)
-            {
-
-                if (mapNo[i] != -1)
-                {
-                    pos[i].X = x[i];
-                    pos[i].Y = y[i];
-                    sprite.Draw(TBlast[mapNo[i] + unisyu[x[i] / 40, y[i] / 40]], pos[i], Color.White);
-                }
-
-
-            }
-            animNoUpdate();
+            
         }
 
         /// <summary>
