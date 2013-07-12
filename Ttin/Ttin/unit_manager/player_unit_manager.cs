@@ -49,17 +49,18 @@ namespace Ttin.unit_manager
         public List<player_unit_base> units { get; set; }
         
         // #1 これはなに？変数名を見た人が発狂するコードを書いてはいけません！
+        // memo: どうやらこれはオブジェクト化されていないプレイヤーユニットのデータのようだ…
         public int[] x, y, mapNo, inter, dam, ren, lv, unit;
         sbyte[,] map;
         public bool[] ani;
         Vector2[] pos;
-        int uni, no;
         int[,] unisyu;
         int[] dame = { 0, 2, 10 };
         int[] renge = { 0, 40, 80 };
 
         int[] rengg = { 0, 40, 80, 120, 160, 200 };
 
+        int uni, no;
 
         int cnt = 0;
         private Texture2D[] TBlast;
@@ -84,28 +85,19 @@ namespace Ttin.unit_manager
             for (int i = 0; i < 15; i++)
             {
                 if (i < 5)
-                {
                     using (Stream stream = File.OpenRead("img/lu" + i + ".png"))
-                    {
                         TBlast[i] = Texture2D.FromStream(g, stream);
-                    }
-                }
                 if (i >= 5 && i < 10)
-                {
                     using (Stream stream = File.OpenRead("img/B" + (i - 5) + ".png"))
-                    {
                         TBlast[i] = Texture2D.FromStream(g, stream);
-                    }
-                }
                 if (i >= 10)
-                {
                     using (Stream stream = File.OpenRead("img/B" + (i - 5) + ".png"))
-                    {
                         TBlast[i] = Texture2D.FromStream(g, stream);
-                    }
-                }
             }
+
             sprite = _sprite;
+
+
             pos = new Vector2[BLASTSU];
             x = new int[BLASTSU];
             y = new int[BLASTSU];
