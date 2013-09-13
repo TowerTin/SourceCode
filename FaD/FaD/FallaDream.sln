@@ -1,0 +1,24 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FallaDream", "FallaDream\FallaDream\FallaDream.csproj", "{925575C9-48B2-4A2B-9C0E-D8655EDD76BE}"
+EndProject
+Project("{96E2B04D-8817-42C6-938A-82C39BA4D311}") = "FallaDreamContent", "FallaDream\FallaDreamContent\FallaDreamContent.contentproj", "{F3F53F39-41A5-40FF-987B-AC31FABF9F08}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x86 = Debug|x86
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{925575C9-48B2-4A2B-9C0E-D8655EDD76BE}.Debug|x86.ActiveCfg = Debug|x86
+		{925575C9-48B2-4A2B-9C0E-D8655EDD76BE}.Debug|x86.Build.0 = Debug|x86
+		{925575C9-48B2-4A2B-9C0E-D8655EDD76BE}.Release|x86.ActiveCfg = Release|x86
+		{925575C9-48B2-4A2B-9C0E-D8655EDD76BE}.Release|x86.Build.0 = Release|x86
+		{F3F53F39-41A5-40FF-987B-AC31FABF9F08}.Debug|x86.ActiveCfg = Debug|x86
+		{F3F53F39-41A5-40FF-987B-AC31FABF9F08}.Release|x86.ActiveCfg = Release|x86
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
